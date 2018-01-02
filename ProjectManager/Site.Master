@@ -1,0 +1,78 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="ProjectManager.Site" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>工作计划管理</title>
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/Site.css" rel="stylesheet" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="Default.aspx">工作计划管理</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="Default.aspx">列表</a></li>
+                        <li><a href="ProjectManager.aspx">项目管理</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">统计报表<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="Statistics1.aspx">项目上线频度表</a></li>
+                                <li><a href="Statistics2.aspx">每周项目上线记录</a></li>
+                                <li><a href="Statistics3.aspx">项目月测试次数</a></li>
+                                <li><a href="Statistics4.aspx">测试人员负责项目数统计</a></li>
+                                <li><a href="Statistics5.aspx">bug统计</a></li>                                                                
+                            </ul>
+                        </li>
+                        <li><a href="UserManager.aspx">用户管理</a></li>
+                        <li><a href="ServerManager.aspx">服务器管理</a></li>
+                        <li><a href="Attentions.aspx">注意事项</a></li>
+                        <li><a href="About.aspx">关于</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a>你好，  <%=u.RealName %> !</a>
+                            <asp:HiddenField ID="hidUserRole" runat="server" />
+                        </li>
+                        <li><a href="ModifyPassword.aspx">修改密码</a></li>
+                        <li><a href="Logout.aspx">注销</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container body-content">
+            <hr />
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+            <hr />
+            <footer>
+                <p>&copy; <%=DateTime.Today.Year %> - 工作计划管理</p>
+            </footer>
+        </div>
+    </form>
+</body>
+</html>

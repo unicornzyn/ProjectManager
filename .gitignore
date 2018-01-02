@@ -1,0 +1,7 @@
+Release
+*.config
+DB
+bin
+obj
+PublishProfiles
+*.user
