@@ -138,6 +138,7 @@ namespace ProjectManager
                 }
                 else if (a.State == 2)
                 {
+                    DateTime d = a.PublishTime > a.RealEndTime ? a.PublishTime : a.RealEndTime;
                     if (a.RealStartTime.Year == year)
                     {
                         if (month > 0)
@@ -146,7 +147,7 @@ namespace ProjectManager
                             {
                                 return true;
                             }
-                            else if (a.RealStartTime.Month < month && a.RealEndTime.Month >= month)
+                            else if (a.RealStartTime.Month < month && d.Month >= month)
                             {
                                 return true;
                             }
@@ -160,15 +161,15 @@ namespace ProjectManager
                             return true;
                         }
                     }
-                    else if (a.RealStartTime.Year < year && a.RealEndTime.Year > year)
+                    else if (a.RealStartTime.Year < year && d.Year > year)
                     {
                         return true;
                     }
-                    else if (a.RealStartTime.Year < year && a.RealEndTime.Year == year)
+                    else if (a.RealStartTime.Year < year && d.Year == year)
                     {
                         if (month > 0)
                         {
-                            if (a.RealEndTime.Month >= month)
+                            if (d.Month >= month)
                             {
                                 return true;
                             }
