@@ -75,5 +75,17 @@ namespace Model
         /// 添加时间
         /// </summary>
         public DateTime AddTime { get; set; }
+        /// <summary>
+        /// 测试人员
+        /// </summary>
+        public string Tester { get; set; }
+        /// <summary>
+        /// 开发人员
+        /// </summary>
+        public string Dever { get; set; }
+        /// <summary>
+        /// 附件路径
+        /// </summary>
+        public string FilePath { get; set; }
     }
 }

@@ -175,6 +175,24 @@ namespace ProjectManager {
         protected global::System.Web.UI.HtmlControls.HtmlTextArea WorkRemark;
         
         /// <summary>
+        /// upFilePath control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload upFilePath;
+        
+        /// <summary>
+        /// hidfilepath control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hidfilepath;
+        
+        /// <summary>
         /// PlanType control.
         /// </summary>
         /// <remarks>
@@ -247,6 +265,42 @@ namespace ProjectManager {
         protected global::System.Web.UI.HtmlControls.HtmlSelect NeederId;
         
         /// <summary>
+        /// hidtester control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hidtester;
+        
+        /// <summary>
+        /// tester control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlSelect tester;
+        
+        /// <summary>
+        /// hiddever control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hiddever;
+        
+        /// <summary>
+        /// rptdever control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptdever;
+        
+        /// <summary>
         /// Remark control.
         /// </summary>
         /// <remarks>
@@ -263,14 +317,5 @@ namespace ProjectManager {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSave;
-        
-        /// <summary>
-        /// Button1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
     }
 }

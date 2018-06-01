@@ -3,6 +3,14 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="datepicker/WdatePicker.js"></script>
     <script type="text/javascript">
+        function remove(arr,val) {
+            var index = arr.indexOf(val);
+            if (index > -1) {
+                arr.splice(index, 1);
+            }
+        };
+        var arr_tester = [];
+        var arr_dever = [];
         $(function () {
             if ($("#hidUserRole").val() != "1" && $("#hidUserRole").val() != "2") {
                 $("#btnAdd,.btnmodify,.btndel").hide();
@@ -26,6 +34,15 @@
                 $("#PublishTime").val("");
                 $("#NeederId").val("0");
                 $("#Remark").val("");
+
+                arr_tester = [];
+                $("#testerlist").empty();
+                $("#tester").val("");
+                arr_dever = [];
+                $("#deverlist").empty();
+                $("#dever").val("");
+                $("#hidfilepath").val("");
+
             });
 ;
 
@@ -36,7 +53,7 @@
                 
                 $("#ProjectId").val($($(this).parent().parent().find("td").get(0)).attr("data-ProjectId"));
                 $("#seltxt").val($($(this).parent().parent().find("td").get(0)).text());
-                $("#WorkRemark").val($($(this).parent().parent().find("td").get(1)).find('div').html().replace(/(<br>)/, "\r\n"));
+                $("#WorkRemark").val($($(this).parent().parent().find("td").get(1)).find('div').html().replace(/(<a[\s\S]*?>附件<\/a><br>)/g, "").replace(/(<br>)/g, "\r\n"));
                 $("#RealStartTime").val($($(this).parent().parent().find("td").get(2)).text());
                 $("#RealEndTime").val($($(this).parent().parent().find("td").get(3)).text());
 
@@ -50,6 +67,28 @@
                 $("#NeederId").val($($(this).parent().parent().find("td").get(0)).attr("data-NeederId"));
                 $("#PlanType").val($($(this).parent().parent().find("td").get(0)).attr("data-PlanType"));
                 $("#State").val($($(this).parent().parent().find("td").get(0)).attr("data-State"));
+                $("#hidfilepath").val($($(this).parent().parent().find("td").get(0)).data("filepath"));
+
+                arr_tester = [];
+                $("#testerlist").empty();
+                $("#tester").val("");
+                var v_tester = $($(this).parent().parent().find("td").get(0)).data("tester");
+                if (v_tester) {
+                    var v_a = v_tester.split(',');
+                    for (var i in v_a) {
+                        addtag("#testerlist", arr_tester, v_a[i]);
+                    }
+                }
+                arr_dever = [];
+                $("#deverlist").empty();
+                $("#dever").val("");
+                var v_dever = $($(this).parent().parent().find("td").get(0)).data("dever");
+                if (v_dever) {
+                    var v_a = v_dever.split(',');
+                    for (var i in v_a) {
+                        addtag("#deverlist", arr_dever, v_a[i]);
+                    }
+                }
             });
 
             $("#ulProject a").click(function () {
@@ -78,7 +117,7 @@
                 
 
                 $("#seltxtDetail").val($($(this).parent().parent().find("td").get(0)).text());
-                $("#WorkRemarkDetail").val($($(this).parent().parent().find("td").get(1)).find('div').html().replace(/(<br>)/, "\r\n"));
+                $("#WorkRemarkDetail").val($($(this).parent().parent().find("td").get(1)).find('div').html().replace(/(<a[\s\S]*?>附件<\/a><br>)/g, "").replace(/(<br>)/g, "\r\n"));
                 $("#RealStartTimeDetail").val($($(this).parent().parent().find("td").get(2)).text());
                 $("#RealEndTimeDetail").val($($(this).parent().parent().find("td").get(3)).text());
                 $("#SheepNoDetail").val($($(this).parent().parent().find("td").get(0)).attr("data-SheepNo"));
@@ -90,7 +129,50 @@
                 $("#NeederIdDetail").val($($(this).parent().parent().find("td").get(6)).text());
                 $("#RemarkDetail").val($($(this).parent().parent().find("td").get(0)).attr("data-Remark"));
 
+                $("#TesterDetail").val($($(this).parent().parent().find("td").get(0)).data("tester"));
+                $("#DeverDetail").val($($(this).parent().parent().find("td").get(0)).data("dever"));
+                if ($($(this).parent().parent().find("td").get(0)).data("filepath")) {
+                    $("#divfilepath").html("<a target='_blank' class='col-md-3 control-label' href='/uploads/" + $($(this).parent().parent().find("td").get(0)).data("filepath") + "'>附件</a>");
+                }
+                
             });
+            
+            $("#tester").change(function () {
+                addtag("#testerlist", arr_tester, $(this).val());
+            });
+            
+            $("#ulDever a").click(function () {
+                addtag("#deverlist", arr_dever, $(this).data('val'));
+            });
+            $("#seldever").keyup(function () {
+                var txt = $("#seldever").val();
+                if (txt == "") {
+                    $("#ulDever a").show();
+                }
+                $.map($("#ulDever a"), function (n, i) {
+                    if ($(n).text().indexOf(txt) >= 0 || $(n).data("py").indexOf(txt) >= 0) {
+                        $(n).show();
+                    } else {
+                        $(n).hide();
+                    }
+                });
+                var par = $(this).parent();
+                if (!par.hasClass("open")) { par.addClass("open"); }
+            });
+
+            function addtag(list, arr, v) {
+                if (v == "0" || v == "") { return; }
+                if (arr.indexOf(v) < 0) {
+                    arr.push(v);
+                    $(list).append('<span class="label label-default" style="display:inline-block;margin:3px 2px;">' + v + '</span>');
+                    $('<span class="glyphicon glyphicon-remove badge"> </span>').bind('click', { arr: arr }, function (event) {
+                        remove(event.data.arr, v);
+                        $(this).prev().remove();
+                        $(this).remove();
+                    }).appendTo($(list));
+                }
+               
+            }
         });
 
         function valid() {
@@ -98,6 +180,8 @@
             if ($("#ProjectId").val() == "") {
                 $("#spProjectId").text("请选择项目!"); return false;
             }
+            $("#hidtester").val(arr_tester.join(','));
+            $("#hiddever").val(arr_dever.join(','));
             return true;
         }
     </script>
@@ -164,8 +248,8 @@
                     <asp:Repeater runat="server" ID="rpt" OnItemCommand="rpt_ItemCommand">
                         <ItemTemplate>
                             <tr class='<%#GetTrClass(Eval("State").ToString()) %>'>
-                                <td data-Id='<%#Eval("Id") %>' data-SheepNo='<%#Eval("SheepNo") %>' data-ProjectId='<%#Eval("ProjectId") %>' data-PlanType='<%#Eval("PlanType") %>' data-PlanTypeStr='<%#Eval("PlanTypeStr") %>' data-StartTime='<%#Common.St.ToDateTimeString(Eval("StartTime"),"yyyy-MM-dd") %>' data-EndTime='<%#Common.St.ToDateTimeString(Eval("EndTime"),"yyyy-MM-dd") %>' data-PublishTime='<%#Common.St.ToDateTimeString(Eval("PublishTime"),"yyyy-MM-dd") %>' data-State='<%#Eval("State") %>' data-NeederId='<%#Eval("NeederId") %>' data-Remark='<%#Eval("Remark") %>'><%#Eval("Project.Name") %></td>
-                                <td><div style="width:100%;max-height:100px;overflow-y:auto;"><%#Eval("WorkRemark").ToString().Replace("\r\n","<br>") %></div></td>
+                                <td data-Id='<%#Eval("Id") %>' data-SheepNo='<%#Eval("SheepNo") %>' data-ProjectId='<%#Eval("ProjectId") %>' data-PlanType='<%#Eval("PlanType") %>' data-PlanTypeStr='<%#Eval("PlanTypeStr") %>' data-StartTime='<%#Common.St.ToDateTimeString(Eval("StartTime"),"yyyy-MM-dd") %>' data-EndTime='<%#Common.St.ToDateTimeString(Eval("EndTime"),"yyyy-MM-dd") %>' data-PublishTime='<%#Common.St.ToDateTimeString(Eval("PublishTime"),"yyyy-MM-dd") %>' data-State='<%#Eval("State") %>' data-NeederId='<%#Eval("NeederId") %>' data-Remark='<%#Eval("Remark") %>' data-tester='<%#Eval("Tester") %>' data-dever='<%#Eval("Dever") %>' data-filepath='<%#Eval("FilePath") %>'><%#Eval("Project.Name") %></td>
+                                <td><div style="width:100%;max-height:100px;overflow-y:auto;"><%#Eval("FilePath").ToString()!=""?("<a target='_blank' href='/uploads/"+Eval("FilePath")+"'>附件</a><br>"):"" %><%#Eval("WorkRemark").ToString().Replace("\r\n","<br>") %></div></td>
                                 <td><%#Common.St.ToDateTimeString(Eval("RealStartTime"),"yyyy-MM-dd") %></td>
                                 <td><%#Common.St.ToDateTimeString(Eval("RealEndTime"),"yyyy-MM-dd") %></td>
                                 <td><%#Common.St.ToDateTimeString(Eval("PublishTime"),"yyyy-MM-dd") %></td>
@@ -246,6 +330,13 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-3 control-label" for="FilePath">附件</label>
+                            <div class="col-md-9">
+                               <asp:FileUpload runat="server" ID="upFilePath" />
+                               <input type="hidden" value="" runat="server" id="hidfilepath" />
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-3 control-label" for="PlanType">插入/正常</label>
                             <div class="col-md-9">
                                 <select class="form-control" id="PlanType" name="PlanType" runat="server">
@@ -310,6 +401,38 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-3 control-label" for="tester">测试人员</label>
+                            <div class="col-md-9">
+                                <input type="hidden" value="" runat="server" id="hidtester" />
+                                <select class="form-control" id="tester" name="tester" runat="server">
+                                </select>
+                                <div id="testerlist">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="dever">研发人员</label>
+                            <div class="col-md-9">
+                                 <input type="hidden" value="" runat="server" id="hiddever" />
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <input type="text" class="form-control" id="seldever" aria-label="..." autocomplete="off" data-toggle="dropdown" />
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class="caret"></span></button>
+                                        <ul class="dropdown-menu" id="ulDever">
+                                            <asp:Repeater runat="server" ID="rptdever">
+                                                <ItemTemplate>
+                                                    <li><a href="#" data-val='<%#Eval("Name") %>' data-py='<%#Common.St.GetPY(Eval("Name").ToString()) %>'><%#Eval("Name") %></a></li>
+                                                </ItemTemplate>
+                                            </asp:Repeater>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div id="deverlist">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-3 control-label" for="Remark">备注</label>
                             <div class="col-md-9">
                                 <textarea id="Remark" name="Remark" class="form-control" runat="server"></textarea>
@@ -353,6 +476,12 @@
                             <label class="col-md-3 control-label" for="WorkRemarkDetail">工作</label>
                             <div class="col-md-9">
                                 <textarea id="WorkRemarkDetail" class="form-control" readonly="true" ></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">附件</label>
+                            <div class="col-md-9" id="divfilepath">
+                                
                             </div>
                         </div>
                         <div class="form-group">
@@ -404,6 +533,18 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-3 control-label" for="NeederIdDetail">测试人员</label>
+                            <div class="col-md-9">
+                                 <input class="form-control" id="TesterDetail" type="text" value="" readonly="true"/>  
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="NeederIdDetail">研发人员</label>
+                            <div class="col-md-9">
+                                 <input class="form-control" id="DeverDetail" type="text" value="" readonly="true"/>  
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-3 control-label" for="RemarkDetail">备注</label>
                             <div class="col-md-9">
                                 <input class="form-control" id="RemarkDetail" type="text" value="" readonly="true"/>  
@@ -413,7 +554,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <asp:Button runat="server" ID="Button1" Text="保存" CssClass="btn btn-info" OnClick="btnSave_Click" OnClientClick="return valid();" />
                 </div>
             </div>
         </div>

@@ -9,7 +9,8 @@ namespace Common
     {
         Project,
         User,
-        BugzillaUsers
+        BugzillaUsers,
+        Dic
     }
     public class UnicornCache
     {

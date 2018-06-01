@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttentionsRule.cs" />
+    <Compile Include="DicRule.cs" />
     <Compile Include="ProjectRule.cs" />
     <Compile Include="ServerRule.cs" />
     <Compile Include="UserRule.cs" />

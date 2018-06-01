@@ -30,7 +30,16 @@ namespace ProjectManager
                 selNeeder.DataValueField = "Id";
                 selNeeder.DataBind();
                 selNeeder.Items.Insert(0,new ListItem("全部", "-1"));
-                
+
+                tester.DataSource = neederlist;
+                tester.DataTextField = "RealName";
+                tester.DataValueField = "RealName";
+                tester.DataBind();
+                tester.Items.Insert(0, new ListItem("", "0"));
+
+                var devlist = DAL.DicRule.Get().Where(a => a.Type == 1);
+                rptdever.DataSource = devlist;
+                rptdever.DataBind();
 
                 List<int> list = new List<int>();
                 for (int i = 2015; i <= DateTime.Now.Year; i++)
@@ -201,7 +210,13 @@ namespace ProjectManager
         {
             if (((User)Session["user"]).RoleType < 3)
             {
-                DAL.WorkPlanRule.Add(Common.St.ToInt32(hId.Value), SheepNo.Value, Common.St.ToInt32(ProjectId.Value), WorkRemark.Value, Common.St.ToInt32(PlanType.Value), Common.St.ToDateTime(StartTime.Value), Common.St.ToDateTime(EndTime.Value), Common.St.ToDateTime(RealStartTime.Value), Common.St.ToDateTime(RealEndTime.Value), Common.St.ToDateTime(PublishTime.Value), Common.St.ToInt32(State.Value), Common.St.ToInt32(NeederId.Value), Remark.Value, ((User)Session["user"]).Id);
+                string filepath = hidfilepath.Value;
+                if (upFilePath.HasFile)
+                {
+                    filepath = Guid.NewGuid().ToString() + System.IO.Path.GetExtension(upFilePath.FileName);
+                    upFilePath.SaveAs(Server.MapPath("~/uploads/" + filepath));
+                }
+                DAL.WorkPlanRule.Add(Common.St.ToInt32(hId.Value), SheepNo.Value, Common.St.ToInt32(ProjectId.Value), WorkRemark.Value, Common.St.ToInt32(PlanType.Value), Common.St.ToDateTime(StartTime.Value), Common.St.ToDateTime(EndTime.Value), Common.St.ToDateTime(RealStartTime.Value), Common.St.ToDateTime(RealEndTime.Value), Common.St.ToDateTime(PublishTime.Value), Common.St.ToInt32(State.Value), Common.St.ToInt32(NeederId.Value), Remark.Value, ((User)Session["user"]).Id,hidtester.Value,hiddever.Value,filepath);
             }
 
             BindData(currpage);

@@ -51,7 +51,7 @@
                         <li><a href="UserManager.aspx">用户管理</a></li>
                         <li><a href="ServerManager.aspx">服务器管理</a></li>
                         <li><a href="Attentions.aspx">注意事项</a></li>
-                        <li><a href="About.aspx">关于</a></li>
+                        <li><a href="DicManager.aspx">字典管理</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
