@@ -28,7 +28,9 @@ namespace ProjectManager
         }
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            rpt.DataSource = GetList().AsEnumerable().Select(a => new { Name = GetBugzillaUserName(a.Field<int>("reporter")), CC = a.Field<Int64>("cc") }).Where(a => a.Name != "");
+            var bugsurl = System.Configuration.ConfigurationManager.AppSettings["BugzillaUrl"];
+            var urlformat = bugsurl+"";
+            rpt.DataSource = GetList().AsEnumerable().Select(a => new { Name = GetBugzillaUserName(a.Field<int>("reporter")), CC = a.Field<Int64>("cc"),Link="" }).Where(a => a.Name != "");
             rpt.DataBind();
         }
 
@@ -77,7 +79,7 @@ namespace ProjectManager
         {
             string start = St.ToDateTime(txtStart.Value).ToString("yyyy-MM-dd 00:00:00");
             string end = St.ToDateTime(txtEnd.Value).ToString("yyyy-MM-dd 23:59:59");
-            string sql = "select reporter,count(bug_id) as cc from bugs where lastdiffed between '" + start + "' and '" + end + "' and resolution in('FIXED','WONTFIX','LATER','REMIND','DUPLICATE','WORKSFORME','MOVED') group by reporter";
+            string sql = "select reporter,count(bug_id) as cc from bugs where creation_ts between '" + start + "' and '" + end + "' group by reporter";
             var dt = Common.DB.MySqlHelper.GetDataSet(System.Data.CommandType.Text, sql).Tables[0];
             return dt;
         }
@@ -89,10 +91,10 @@ namespace ProjectManager
             if (dic == null)
             {
                 dic = new Dictionary<int, string>();
-                var dt = Common.DB.MySqlHelper.GetDataSet(System.Data.CommandType.Text, "select userid,realname from profiles").Tables[0];
-                foreach (DataRow row in dt.Rows)
+                var ll = DAL.UserRule.Get();
+                foreach (var o in ll)
                 {
-                    dic.Add(int.Parse(row["userid"].ToString()), row["realname"].ToString());
+                    dic.Add(o.BugzillaId, o.RealName);
                 }
                 UnicornCache.Add(CacheKey.BugzillaUsers, dic);
             }

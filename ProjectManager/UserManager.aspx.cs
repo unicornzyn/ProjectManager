@@ -17,6 +17,13 @@ namespace ProjectManager
                 var state = int.Parse(selState.SelectedValue);
                 rpt.DataSource = DAL.UserRule.Get().Where(a => a.Status == state || state == 0);
                 rpt.DataBind();
+
+                selBugziilaUser.DataSource = Common.DB.MySqlHelper.GetDataSet(System.Data.CommandType.Text, "select userid,realname from profiles where is_enabled=1 order by userid desc").Tables[0]; ;
+                selBugziilaUser.DataValueField = "userid";
+                selBugziilaUser.DataTextField = "realname";
+                selBugziilaUser.DataBind();
+
+                selBugziilaUser.Items.Insert(0,new ListItem() { Value = "0", Text = "请选择" });
             }
         }
 
@@ -25,7 +32,7 @@ namespace ProjectManager
             if (((User)Session["user"]).RoleType == 1)
             {
                 DateTime leavetime = txtLeaveTime.Value != "" ? Common.St.ToDateTime(txtLeaveTime.Value) : DateTime.Parse("1900-01-01");
-                DAL.UserRule.Add(txtUserName.Value, txtRealName.Value, Common.St.ToInt32(selRole.Value), leavetime);
+                DAL.UserRule.Add(txtUserName.Value, txtRealName.Value, Common.St.ToInt32(selRole.Value), leavetime,Common.St.ToInt32(selBugziilaUser.SelectedValue));
             }
             Response.Redirect("UserManager.aspx");
         }

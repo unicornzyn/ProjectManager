@@ -15,5 +15,6 @@ namespace Model
         public int RoleType { get; set; }
         public int Status { get; set; }
         public DateTime LeaveTime { get; set; }
+        public int BugzillaId { get; set; }
     }
 }

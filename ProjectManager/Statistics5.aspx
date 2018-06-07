@@ -33,7 +33,7 @@
                         <ItemTemplate>
                             <tr>
                                 <td><%#Eval("Name") %></td>
-                                <td><%#Eval("CC") %></td>                                
+                                <td><a href="<%#Eval("Link") %>" target="_blank"><%#Eval("CC") %></a></td>                                
                             </tr>
                         </ItemTemplate>
                     </asp:Repeater>

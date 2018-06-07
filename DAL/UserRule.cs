@@ -14,7 +14,7 @@ namespace DAL
     {
         public static User Get(string username)
         {
-            string sql = "select Id,UserName,Password,RealName,RoleType,Status from Users where UserName=@UserName";
+            string sql = "select Id,UserName,Password,RealName,RoleType,Status,bugzillaid from Users where UserName=@UserName";
             SqlParam p = new SqlParam();
             p.AddParam("@UserName", username, SqlDbType.VarChar, 100);
             DataTable dt = ProjectDB.GetDt(sql, p);
@@ -27,6 +27,7 @@ namespace DAL
                 o.RealName = dt.Rows[0]["RealName"].ToString();
                 o.RoleType = St.ToInt32(dt.Rows[0]["RoleType"], 0);
                 o.Status = St.ToInt32(dt.Rows[0]["Status"], 0);
+                o.BugzillaId = St.ToInt32(dt.Rows[0]["bugzillaid"], 0);
                 return o;
             }
             else
@@ -41,7 +42,7 @@ namespace DAL
             if (list==null)
             {
                 list = new List<User>();
-                string sql = "select Id,UserName,Password,RealName,RoleType,Status,LeaveTime from Users";
+                string sql = "select Id,UserName,Password,RealName,RoleType,Status,LeaveTime,bugzillaid from Users";
                 DataTable dt = ProjectDB.GetDt(sql);
                 foreach (DataRow row in dt.Rows)
                 {
@@ -53,6 +54,7 @@ namespace DAL
                     o.RoleType = St.ToInt32(row["RoleType"], 0);
                     o.Status = St.ToInt32(row["Status"], 0);
                     o.LeaveTime = St.ToDateTime(row["LeaveTime"].ToString());
+                    o.BugzillaId = St.ToInt32(row["bugzillaid"], 0);
                     list.Add(o);
                 }
                 UnicornCache.Add(CacheKey.User, list);
@@ -61,18 +63,19 @@ namespace DAL
             return list;
         }
 
-        public static void Add(string username, string realname,int userrole,DateTime leavetime)
+        public static void Add(string username, string realname,int userrole,DateTime leavetime,int bugzillaid)
         {
             string sql = @" if exists(select Id from Users where UserName=@UserName)
-	                            update Users set RealName=@RealName,RoleType=@RoleType,LeaveTime=@LeaveTime where UserName=@UserName
+	                            update Users set RealName=@RealName,RoleType=@RoleType,LeaveTime=@LeaveTime,bugzillaid=@bugzillaid where UserName=@UserName
                             else
-	                            insert into Users(UserName,Password,RealName,RoleType,Status,LeaveTime) values(@UserName,@Password,@RealName,@RoleType,1,@LeaveTime)";
+	                            insert into Users(UserName,Password,RealName,RoleType,Status,LeaveTime,bugzillaid) values(@UserName,@Password,@RealName,@RoleType,1,@LeaveTime,@bugzillaid)";
             SqlParam p = new SqlParam();
             p.AddParam("@UserName", username, SqlDbType.VarChar, 100);
             p.AddParam("@RealName", realname, SqlDbType.VarChar, 500);
             p.AddParam("@RoleType", userrole, SqlDbType.Int, 0);
             p.AddParam("@Password", St.GetMd5(username + "123456"), SqlDbType.VarChar, 100);
             p.AddParam("@LeaveTime", leavetime, SqlDbType.DateTime, 0);
+            p.AddParam("@bugzillaid", bugzillaid, SqlDbType.Int, 0);
             ProjectDB.SqlExecute(sql, p);
             UnicornCache.Remove(CacheKey.User);
         }

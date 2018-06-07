@@ -10,6 +10,8 @@
             $("#btnAdd").click(function () {
                 $("#txtUserName").val("");
                 $("#txtRealName").val("");
+                $("#selBugziilaUser").val("0");
+
             });
 
             $(".btnmodify").click(function () {
@@ -19,6 +21,7 @@
                 var role = $($(this).parent().parent().find("td").get(2)).text();
                 $("#selRole").val(role == "用户" ? "2" : "1");
                 $("#txtLeaveTime").val($($(this).parent().parent().find("td").get(3)).text());
+                $("#selBugziilaUser").val($($(this).parent().parent().find("td").get(0)).data("bugzillaid"));
             });
         });
 
@@ -29,7 +32,11 @@
             }
             if ($("#txtRealName").val() == "") {
                 $("#spRealName").text("请输入姓名"); return false;
-            }            
+            }
+            if ($("#selBugziilaUser").val() == "0") {
+                $("#spBugziilaId").text("请绑定对应的bugzilla用户"); return false;
+            }
+
             return true;
         }
     </script>
@@ -68,7 +75,7 @@
                     <asp:Repeater ID="rpt" runat="server" OnItemCommand="rpt_ItemCommand">
                         <ItemTemplate>
                             <tr>
-                                <td><%#Eval("UserName") %></td>
+                                <td data-bugzillaid="<%#Eval("BugzillaId") %>"><%#Eval("UserName") %></td>
                                 <td><%#Eval("RealName") %></td>
                                 <td><%#GetRoleName(Eval("RoleType").ToString()) %></td>
                                 <td><%#Eval("Status").ToString()=="1"?"":Common.St.ToDateTimeString(Eval("LeaveTime"),"yyyy-MM-dd") %></td>
@@ -131,6 +138,13 @@
                             <div class="col-md-10">
                                 <input class="form-control" id="txtLeaveTime" onclick="WdatePicker()" runat="server" type="text" value="" />
                                 <span class="field-validation-valid text-danger" id="spLeaveTime"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="selBugziilaUser">Bugzilla</label>
+                            <div class="col-md-10">
+                                <asp:DropDownList runat="server" ID="selBugziilaUser" CssClass="form-control"></asp:DropDownList>
+                                <span class="field-validation-valid text-danger" id="spBugziilaId"></span>
                             </div>
                         </div>
                     </div>
