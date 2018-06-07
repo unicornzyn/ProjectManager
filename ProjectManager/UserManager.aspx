@@ -37,8 +37,19 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="row">
         <div class="col-md-12">
-            <input type="button" id="btnAdd" class="btn btn-success" value="添加用户" data-toggle="modal" data-target="#myModal" />
+            
         </div>
+    </div>
+    <div class="form-inline">
+        <div class="form-group">
+            <label for="selState" class="control-label">状态</label>
+            <asp:DropDownList runat="server" ID="selState" CssClass="form-control" OnSelectedIndexChanged="selState_SelectedIndexChanged" AutoPostBack="true">
+                <asp:ListItem Value="0" Text="全部"></asp:ListItem>
+                <asp:ListItem Value="1" Text="已启用" Selected="True"></asp:ListItem>
+                <asp:ListItem Value="2" Text="已禁用"></asp:ListItem>
+            </asp:DropDownList>            
+        </div>
+        <input type="button" id="btnAdd" class="btn btn-success" value="添加用户" data-toggle="modal" data-target="#myModal" />
     </div>
     <hr />
     <div class="row">

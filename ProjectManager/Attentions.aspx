@@ -31,22 +31,7 @@
                         $("#projectidlist").append('<li class="list-group-item" data-id="' + a_ids[i] + '">' + a_names[i] + '<span class="glyphicon glyphicon-remove badge"> </span></li>');
                     }
                 }
-            });
-          
-            $("#btnSearch").click(function () {
-                var txt = $.trim($("#txtSearch").val());
-                $.each($("#tblist tr"), function (i, n) {
-                    if (txt) {
-                        if ($($(n).find("td").get(0)).text().indexOf(txt) >= 0) {
-                            $(n).show();
-                        } else {
-                            $(n).hide();
-                        }
-                    } else {
-                        $(n).show();
-                    }
-                });
-            });
+            });                     
 
             function getprojectid() {
                 var ids = "";
@@ -84,9 +69,9 @@
     <div class="form-inline">
         <div class="form-group">
             <label for="txtSearch" class="control-label">搜索条件</label>
-            <input type="text" class="form-control" id="txtSearch" placeholder="" />
+            <input type="text" class="form-control" id="txtSearch" placeholder="" runat="server" />
         </div>
-        <input type="button" class="btn btn-info" id="btnSearch" value="搜 索" />
+        <asp:Button runat="server" CssClass="btn btn-info" ID="btnSearch" Text="搜 索" OnClick="btnSearch_Click" />
         <%if (((Model.User)Session["user"]).RoleType < 3)
           { %>
         <input id="btnAdd" value="添加" type="button" class="btn btn-success" />
@@ -123,6 +108,23 @@
                     </asp:Repeater>
                 </tbody>
             </table>
+            <nav>
+                <ul class="pager">
+                    <li>
+                        <asp:LinkButton runat="server" ID="lbFirst" Text="首 页" OnClick="lbFirst_Click"></asp:LinkButton></li>
+                    <li>
+                        <asp:LinkButton runat="server" ID="lbPrevious" Text="上一页" OnClick="lbPrevious_Click"></asp:LinkButton></li>
+                    <li>
+                        <span>
+                            <span aria-hidden="true" runat="server" id="spPage">0/0</span>
+                        </span>
+                    </li>
+                    <li>
+                        <asp:LinkButton runat="server" ID="lbNext" Text="下一页" OnClick="lbNext_Click"></asp:LinkButton></li>
+                    <li>
+                        <asp:LinkButton runat="server" ID="lbLast" Text="末 页" OnClick="lbLast_Click"></asp:LinkButton></li>
+                </ul>
+            </nav>
         </div>
     </div>
     <%if (((Model.User)Session["user"]).RoleType < 3)

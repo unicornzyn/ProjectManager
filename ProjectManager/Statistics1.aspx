@@ -46,7 +46,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="form-inline">
         <div class="form-group">
-            <label for="input" class="control-label">年份</label>
+            <label for="selYear" class="control-label">年份</label>
             <select id="selYear" class="form-control" runat="server">
             </select>
             &nbsp;&nbsp;

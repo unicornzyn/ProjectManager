@@ -14,7 +14,7 @@ namespace DAL
         public static List<Attentions> Get()
         {
             List<Attentions> list = new List<Attentions>();
-            string sql = "SELECT [Id] ,[Remark],[ProjectId],[AddTime] FROM [dbo].[Attentions]";
+            string sql = "SELECT [Id] ,[Remark],[ProjectId],[AddTime] FROM [dbo].[Attentions] order by Id desc";
 
             DataTable dt = ProjectDB.GetDt(sql);
             List<Project> lp = ProjectRule.Get();

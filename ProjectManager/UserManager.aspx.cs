@@ -14,7 +14,8 @@ namespace ProjectManager
         {
             if (!IsPostBack)
             {
-                rpt.DataSource = DAL.UserRule.Get();
+                var state = int.Parse(selState.SelectedValue);
+                rpt.DataSource = DAL.UserRule.Get().Where(a => a.Status == state || state == 0);
                 rpt.DataBind();
             }
         }
@@ -67,6 +68,13 @@ namespace ProjectManager
             {
                 return "";
             }
+        }
+
+        protected void selState_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var state = int.Parse(selState.SelectedValue);
+            rpt.DataSource = DAL.UserRule.Get().Where(a => a.Status == state || state == 0);
+            rpt.DataBind();
         }
     }
 }

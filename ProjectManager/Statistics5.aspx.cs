@@ -89,23 +89,11 @@ namespace ProjectManager
             if (dic == null)
             {
                 dic = new Dictionary<int, string>();
-                string s = St.ConfigKey("BugzillaUsers");
-                foreach (var a in s.Split(','))
+                var dt = Common.DB.MySqlHelper.GetDataSet(System.Data.CommandType.Text, "select userid,realname from profiles").Tables[0];
+                foreach (DataRow row in dt.Rows)
                 {
-                    if (St.CheckStr(a))
-                    {
-                        var b = a.Split(':');
-                        if (b.Count() == 2)
-                        {
-                            int k = St.ToInt32(b[0]);
-                            if (!dic.ContainsKey(k))
-                            {
-                                dic.Add(k, b[1]);
-                            }
-                        }
-                    }
+                    dic.Add(int.Parse(row["userid"].ToString()), row["realname"].ToString());
                 }
-
                 UnicornCache.Add(CacheKey.BugzillaUsers, dic);
             }
 

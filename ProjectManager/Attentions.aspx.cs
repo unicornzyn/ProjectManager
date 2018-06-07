@@ -10,12 +10,12 @@ namespace ProjectManager
 {
     public partial class Attentions : System.Web.UI.Page
     {
+        protected static int currpage = 1;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                rpt.DataSource = DAL.AttentionsRule.Get();
-                rpt.DataBind();
+                BindData(1);
 
                 rptPorject.DataSource = DAL.ProjectRule.Get();
                 rptPorject.DataBind();
@@ -53,6 +53,51 @@ namespace ProjectManager
                 Response.Redirect("Attentions.aspx");
 
             }
+        }
+
+        private void BindData(int page)
+        {
+            var list = DAL.AttentionsRule.Get().Where(a => txtSearch.Value == "" || a.Remark.ToLower().IndexOf(txtSearch.Value.ToLower()) >= 0);
+            int cc = (int)Math.Ceiling(list.Count() / 10.0);
+            if (page <= 0)
+            {
+                currpage = 1;
+            }
+            else if (page > cc)
+            {
+                currpage = cc;
+            }
+            else
+            {
+                currpage = page;
+            }
+            rpt.DataSource = list.Skip((currpage - 1) * 10).Take(10);
+            rpt.DataBind();
+            spPage.InnerText = currpage + "/" + cc + " 共" + list.Count() + "条";
+        }
+        protected void lbFirst_Click(object sender, EventArgs e)
+        {
+            BindData(1);
+        }
+
+        protected void lbPrevious_Click(object sender, EventArgs e)
+        {
+            BindData(currpage - 1);
+        }
+
+        protected void lbNext_Click(object sender, EventArgs e)
+        {
+            BindData(currpage + 1);
+        }
+
+        protected void lbLast_Click(object sender, EventArgs e)
+        {
+            BindData(1000);
+        }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            BindData(1);
         }
     }
 }
