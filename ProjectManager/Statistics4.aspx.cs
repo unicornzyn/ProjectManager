@@ -33,7 +33,7 @@ namespace ProjectManager
             {
                 m = DateTime.Today.Month;
             }
-            rpt.DataSource = list.Where(a=>a.NeederId>0).GroupBy(a => a.NeederId).Select(a =>
+            rpt.DataSource = list.Where(a=>a.NeederId>0 && a.Needer.Status == 1).GroupBy(a => a.NeederId).Select(a =>
             {
                 return new
                 {
@@ -63,7 +63,7 @@ namespace ProjectManager
             {
                 m = DateTime.Today.Month;
             }
-            var list = DAL.WorkPlanRule.Get().Where(a => a.NeederId > 0).GroupBy(a => a.NeederId).Select(a =>
+            var list = DAL.WorkPlanRule.Get().Where(a => a.NeederId > 0 && a.Needer.Status == 1).GroupBy(a => a.NeederId).Select(a =>
             {
                 return new
                 {

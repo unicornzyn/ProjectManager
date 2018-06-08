@@ -29,8 +29,10 @@ namespace ProjectManager
         protected void btnSearch_Click(object sender, EventArgs e)
         {
             var bugsurl = System.Configuration.ConfigurationManager.AppSettings["BugzillaUrl"];
-            var urlformat = bugsurl+"";
-            rpt.DataSource = GetList().AsEnumerable().Select(a => new { Name = GetBugzillaUserName(a.Field<int>("reporter")), CC = a.Field<Int64>("cc"),Link="" }).Where(a => a.Name != "");
+            string start = St.ToDateTime(txtStart.Value).ToString("yyyy-MM-dd");
+            string end = St.ToDateTime(txtEnd.Value).ToString("yyyy-MM-dd");
+            var urlformat = bugsurl+ "/buglist.cgi?chfield=%5BBug%20creation%5D&chfieldfrom="+ start + "&chfieldto="+end+"&f1=reporter_realname&o1=equals&query_format=advanced&v1=";
+            rpt.DataSource = GetList().AsEnumerable().Select(a => new { Name = GetBugzillaUserName(a.Field<int>("reporter")), CC = a.Field<Int64>("cc"),Link= urlformat+GetBugzillaUserName(a.Field<int>("reporter")) }).Where(a => a.Name != "");
             rpt.DataBind();
         }
 
