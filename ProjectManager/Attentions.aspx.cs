@@ -39,7 +39,7 @@ namespace ProjectManager
             if (((User)Session["user"]).RoleType < 3)
             {
                 int id = Common.St.ToInt32(txtId.Value, 0);
-                string Remark = txtRemark.Value.Trim();
+                string Remark = HttpUtility.HtmlEncode(txtRemark.Value.Trim());
                 string ProjectId = txtProjectId.Value.Trim();
 
                 if (id > 0)
