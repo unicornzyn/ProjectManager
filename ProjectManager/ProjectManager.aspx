@@ -3,6 +3,14 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script type="text/javascript">
         $(function () {
+            var k = location.search.replace('?k=', '');
+            if (k.length > 0) {
+                if ($("#txtSearch").val() == "") {
+                    $("#txtSearch").val(unescape(k));
+                    $("#btnSearch").trigger('click');
+                }
+                
+            }
             if ($("#hidUserRole").val() != "1") {
                 $("#btnAdd,.btnmodify,.btndel").hide();
             }
