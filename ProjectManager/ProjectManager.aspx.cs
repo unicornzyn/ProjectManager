@@ -27,7 +27,7 @@ namespace ProjectManager
 
         private void BindData(int page)
         {
-            var list = DAL.ProjectRule.Get().Where(a => txtSearch.Value == "" || a.Name.ToLower().IndexOf(txtSearch.Value.ToLower()) >= 0 || (a.Url.Length > 0 && a.Url.ToLower().IndexOf(txtSearch.Value.ToLower()) >= 0) || (a.TestUrl.Length > 0 && a.TestUrl.ToLower().IndexOf(txtSearch.Value.ToLower()) >= 0));
+            var list = DAL.ProjectRule.Get().Where(a => txtSearch.Value == "" || a.Name.ToLower().IndexOf(txtSearch.Value.ToLower()) >= 0 || (a.Url.Length > 0 && a.Url.ToLower().IndexOf(txtSearch.Value.ToLower()) >= 0) || (a.TestUrl.Length > 0 && a.TestUrl.ToLower().IndexOf(txtSearch.Value.ToLower()) >= 0) || (a.DatabaseName.Length > 0 && a.DatabaseName.ToLower().IndexOf(txtSearch.Value.ToLower()) >= 0));
             int cc = (int)Math.Ceiling(list.Count() / 10.0);
             if (page <= 0)
             {
