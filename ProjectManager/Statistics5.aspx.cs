@@ -31,7 +31,7 @@ namespace ProjectManager
             var bugsurl = System.Configuration.ConfigurationManager.AppSettings["BugzillaUrl"];
             string start = St.ToDateTime(txtStart.Value).ToString("yyyy-MM-dd");
             string end = St.ToDateTime(txtEnd.Value).ToString("yyyy-MM-dd");
-            var urlformat = bugsurl+ "/buglist.cgi?chfield=%5BBug%20creation%5D&chfieldfrom="+ start + "&chfieldto="+end+"&f1=reporter_realname&o1=equals&query_format=advanced&v1=";
+            var urlformat = bugsurl+ "/buglist.cgi?chfield=%5BBug%20creation%5D&chfieldfrom="+ start + "&chfieldto="+end+ "&f1=reporter_realname&o1=equals&query_format=advanced&resolution=FIXED&resolution=WONTFIX&resolution=LATER&resolution=REMIND&resolution=DUPLICATE&resolution=WORKSFORME&resolution=MOVED&v1=";
             rpt.DataSource = GetList().AsEnumerable().Select(a => new { Name = GetBugzillaUserName(a.Field<int>("reporter")), CC = a.Field<Int64>("cc"),Link= urlformat+GetBugzillaUserName(a.Field<int>("reporter")) }).Where(a => a.Name != "");
             rpt.DataBind();
         }
@@ -81,7 +81,7 @@ namespace ProjectManager
         {
             string start = St.ToDateTime(txtStart.Value).ToString("yyyy-MM-dd 00:00:00");
             string end = St.ToDateTime(txtEnd.Value).ToString("yyyy-MM-dd 23:59:59");
-            string sql = "select reporter,count(bug_id) as cc from bugs where creation_ts between '" + start + "' and '" + end + "' group by reporter";
+            string sql = "select reporter,count(bug_id) as cc from bugs where creation_ts between '" + start + "' and '" + end + "' and resolution in('DUPLICATE','FIXED','LATER','MOVED','REMIND','WONTFIX','WORKSFORME') group by reporter";
             var dt = Common.DB.MySqlHelper.GetDataSet(System.Data.CommandType.Text, sql).Tables[0];
             return dt;
         }

@@ -115,6 +115,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="WorkPlanFiles.aspx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\publish.pubxml" />
     <Content Include="Statistics2.aspx" />
@@ -267,6 +268,13 @@
     </Compile>
     <Compile Include="UserManager.aspx.designer.cs">
       <DependentUpon>UserManager.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WorkPlanFiles.aspx.cs">
+      <DependentUpon>WorkPlanFiles.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WorkPlanFiles.aspx.designer.cs">
+      <DependentUpon>WorkPlanFiles.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

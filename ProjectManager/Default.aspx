@@ -53,7 +53,7 @@
                 
                 $("#ProjectId").val($($(this).parent().parent().find("td").get(0)).attr("data-ProjectId"));
                 $("#seltxt").val($($(this).parent().parent().find("td").get(0)).text());
-                $("#WorkRemark").val($($(this).parent().parent().find("td").get(1)).find('div').html().replace(/(<a[\s\S]*?>附件<\/a><br>)/g, "").replace(/(<br>)/g, "\r\n"));
+                $("#WorkRemark").val($($(this).parent().parent().find("td").get(1)).find('div').html().replace(/(<br>)/g, "\r\n"));
                 $("#RealStartTime").val($($(this).parent().parent().find("td").get(2)).text());
                 $("#RealEndTime").val($($(this).parent().parent().find("td").get(3)).text());
 
@@ -131,10 +131,16 @@
 
                 $("#TesterDetail").val($($(this).parent().parent().find("td").get(0)).data("tester"));
                 $("#DeverDetail").val($($(this).parent().parent().find("td").get(0)).data("dever"));
-                if ($($(this).parent().parent().find("td").get(0)).data("filepath")) {
-                    $("#divfilepath").html("<a target='_blank' class='col-md-3 control-label' href='/uploads/" + $($(this).parent().parent().find("td").get(0)).data("filepath") + "'>附件</a>");
-                }
+                //if ($($(this).parent().parent().find("td").get(0)).data("filepath")) {
+                //    $("#divfilepath").html("<a target='_blank' class='col-md-3 control-label' href='/uploads/" + $($(this).parent().parent().find("td").get(0)).data("filepath") + "'>附件</a>");
+                //}
                 
+            });
+
+            $(".btnfiles").click(function () {
+                var id = $($(this).parent().parent().find("td").get(0)).data("id");
+                $("#iframefiles").attr("src", "WorkPlanFiles.aspx?id=" + id);
+                $("#myModalFiles").modal('show');
             });
             
             $("#tester").change(function () {
@@ -241,7 +247,7 @@
                         <th style="width:103px;">上线时间</th>
                         <th style="width:70px;">任务状态</th>
                         <th style="width:70px;">项目负责人</th>
-                        <th style="width: 190px;">操作</th>
+                        <th style="width: 250px;text-align:center;">操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -249,7 +255,7 @@
                         <ItemTemplate>
                             <tr class='<%#GetTrClass(Eval("State").ToString()) %>'>
                                 <td data-Id='<%#Eval("Id") %>' data-SheepNo='<%#Eval("SheepNo") %>' data-ProjectId='<%#Eval("ProjectId") %>' data-PlanType='<%#Eval("PlanType") %>' data-PlanTypeStr='<%#Eval("PlanTypeStr") %>' data-StartTime='<%#Common.St.ToDateTimeString(Eval("StartTime"),"yyyy-MM-dd") %>' data-EndTime='<%#Common.St.ToDateTimeString(Eval("EndTime"),"yyyy-MM-dd") %>' data-PublishTime='<%#Common.St.ToDateTimeString(Eval("PublishTime"),"yyyy-MM-dd") %>' data-State='<%#Eval("State") %>' data-NeederId='<%#Eval("NeederId") %>' data-Remark='<%#Eval("Remark") %>' data-tester='<%#Eval("Tester") %>' data-dever='<%#Eval("Dever") %>' data-filepath='<%#Eval("FilePath") %>'><a target="_blank" href="/ProjectManager.aspx?k=<%#System.Web.HttpUtility.UrlEncodeUnicode(Eval("Project.Name").ToString()) %>"><%#Eval("Project.Name") %></a></td>
-                                <td><div style="width:100%;max-height:100px;overflow-y:auto;"><%#Eval("FilePath").ToString()!=""?("<a target='_blank' href='/uploads/"+Eval("FilePath")+"'>附件</a><br>"):"" %><%#Eval("WorkRemark").ToString().Replace("\r\n","<br>") %></div></td>
+                                <td><div style="width:100%;max-height:100px;overflow-y:auto;"><%#Eval("WorkRemark").ToString().Replace("\r\n","<br>") %></div></td>
                                 <td><%#Common.St.ToDateTimeString(Eval("RealStartTime"),"yyyy-MM-dd") %></td>
                                 <td><%#Common.St.ToDateTimeString(Eval("RealEndTime"),"yyyy-MM-dd") %></td>
                                 <td><%#Common.St.ToDateTimeString(Eval("PublishTime"),"yyyy-MM-dd") %></td>
@@ -259,6 +265,7 @@
                                     <input type="button" class="btn btn-default btndetail" value="查看" />
                                     <input type="button" class="btn btn-default btnmodify" value="修改" />
                                     <asp:Button runat="server" CssClass="btn btn-default" Text="删除" CommandArgument='<%#Eval("Id") %>' OnClientClick="return window.confirm('确定删除吗?');" CommandName="DeleteWorkPlan" />
+                                    <input type="button" class="btn btn-default btnfiles" value="附件" />
                                 </td>
                             </tr>
                         </ItemTemplate>
@@ -329,7 +336,7 @@
                                 <span class="field-validation-valid text-danger" id="spWorkRemark"></span>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display:none;">
                             <label class="col-md-3 control-label" for="FilePath">附件</label>
                             <div class="col-md-9">
                                <asp:FileUpload runat="server" ID="upFilePath" />
@@ -449,8 +456,6 @@
         </div>
     </div>
 
-
-
     <div class="modal fade" id="myModalDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabelDetail" data-backdrop="static">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -478,7 +483,7 @@
                                 <textarea id="WorkRemarkDetail" class="form-control" readonly="true" ></textarea>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display:none;">
                             <label class="col-md-3 control-label">附件</label>
                             <div class="col-md-9" id="divfilepath">
                                 
@@ -554,6 +559,23 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModalFiles" tabindex="-1" role="dialog" aria-labelledby="myModalLabelFiles" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabelFiles">工作计划附件管理</h4>
+                </div>
+                <div class="modal-body">
+                    <iframe id="iframefiles" src="" frameborder="0" width="100%" height="380px"></iframe>
+                </div>
+                <div class="modal-footer">
+                    
                 </div>
             </div>
         </div>

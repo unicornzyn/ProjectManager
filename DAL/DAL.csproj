@@ -46,6 +46,7 @@
     <Compile Include="ServerRule.cs" />
     <Compile Include="UserRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorkPlanFileRule.cs" />
     <Compile Include="WorkPlanRule.cs" />
   </ItemGroup>
   <ItemGroup>
