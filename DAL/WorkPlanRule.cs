@@ -133,6 +133,10 @@ namespace DAL
             {
                 return "完成";
             }
+            else if (i == 3)
+            {
+                return "延期";
+            }
             else
             {
                 return "";

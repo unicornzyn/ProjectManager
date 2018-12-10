@@ -225,6 +225,7 @@
                 <option value="0">未开始</option>
                 <option value="1">进行中</option>
                 <option value="2">完成</option>
+                <option value="3">延期</option>
             </select>
             &nbsp;&nbsp;
             <label for="txtProjectSearch" class="control-label">项目</label>
@@ -254,11 +255,11 @@
                     <asp:Repeater runat="server" ID="rpt" OnItemCommand="rpt_ItemCommand">
                         <ItemTemplate>
                             <tr class='<%#GetTrClass(Eval("State").ToString()) %>'>
-                                <td data-Id='<%#Eval("Id") %>' data-SheepNo='<%#Eval("SheepNo") %>' data-ProjectId='<%#Eval("ProjectId") %>' data-PlanType='<%#Eval("PlanType") %>' data-PlanTypeStr='<%#Eval("PlanTypeStr") %>' data-StartTime='<%#Common.St.ToDateTimeString(Eval("StartTime"),"yyyy-MM-dd") %>' data-EndTime='<%#Common.St.ToDateTimeString(Eval("EndTime"),"yyyy-MM-dd") %>' data-PublishTime='<%#Common.St.ToDateTimeString(Eval("PublishTime"),"yyyy-MM-dd") %>' data-State='<%#Eval("State") %>' data-NeederId='<%#Eval("NeederId") %>' data-Remark='<%#Eval("Remark") %>' data-tester='<%#Eval("Tester") %>' data-dever='<%#Eval("Dever") %>' data-filepath='<%#Eval("FilePath") %>'><a target="_blank" href="/ProjectManager.aspx?k=<%#System.Web.HttpUtility.UrlEncodeUnicode(Eval("Project.Name").ToString()) %>"><%#Eval("Project.Name") %></a></td>
+                                <td data-Id='<%#Eval("Id") %>' data-SheepNo='<%#Eval("SheepNo") %>' data-ProjectId='<%#Eval("ProjectId") %>' data-PlanType='<%#Eval("PlanType") %>' data-PlanTypeStr='<%#Eval("PlanTypeStr") %>' data-StartTime='<%#Common.St.ToDateTimeString(Eval("StartTime"),"yyyy-MM-dd HH:mm:ss") %>' data-EndTime='<%#Common.St.ToDateTimeString(Eval("EndTime"),"yyyy-MM-dd HH:mm:ss") %>' data-PublishTime='<%#Common.St.ToDateTimeString(Eval("PublishTime"),"yyyy-MM-dd HH:mm:ss") %>' data-State='<%#Eval("State") %>' data-NeederId='<%#Eval("NeederId") %>' data-Remark='<%#Eval("Remark") %>' data-tester='<%#Eval("Tester") %>' data-dever='<%#Eval("Dever") %>' data-filepath='<%#Eval("FilePath") %>'><a target="_blank" href="/ProjectManager.aspx?k=<%#System.Web.HttpUtility.UrlEncodeUnicode(Eval("Project.Name").ToString()) %>"><%#Eval("Project.Name") %></a></td>
                                 <td><div style="width:100%;max-height:100px;overflow-y:auto;"><%#Eval("WorkRemark").ToString().Replace("\r\n","<br>") %></div></td>
-                                <td><%#Common.St.ToDateTimeString(Eval("RealStartTime"),"yyyy-MM-dd") %></td>
-                                <td><%#Common.St.ToDateTimeString(Eval("RealEndTime"),"yyyy-MM-dd") %></td>
-                                <td><%#Common.St.ToDateTimeString(Eval("PublishTime"),"yyyy-MM-dd") %></td>
+                                <td><%#Common.St.ToDateTimeString(Eval("RealStartTime"),"yyyy-MM-dd HH:mm:ss") %></td>
+                                <td><%#Common.St.ToDateTimeString(Eval("RealEndTime"),"yyyy-MM-dd HH:mm:ss") %></td>
+                                <td><%#Common.St.ToDateTimeString(Eval("PublishTime"),"yyyy-MM-dd HH:mm:ss") %></td>
                                 <td><%#Eval("StateStr") %></td>
                                 <td><%#Eval("Needer.RealName") %></td>
                                 <td>
@@ -356,35 +357,35 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="StartTime">计划开始时间</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="StartTime" name="StartTime" onclick="WdatePicker()" runat="server" type="text"  autocomplete="off"/>
+                                <input class="form-control" id="StartTime" name="StartTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" runat="server" type="text"  autocomplete="off"/>
                                 <span class="field-validation-valid text-danger" id="spStartTime"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="EndTime">计划结束时间</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="EndTime" name="EndTime" onclick="WdatePicker()" runat="server" type="text"  autocomplete="off"/>
+                                <input class="form-control" id="EndTime" name="EndTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" runat="server" type="text"  autocomplete="off"/>
                                 <span class="field-validation-valid text-danger" id="spEndTime"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="RealStartTime">实际开始时间</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="RealStartTime" name="RealStartTime" onclick="WdatePicker()" runat="server" type="text"  autocomplete="off"/>
+                                <input class="form-control" id="RealStartTime" name="RealStartTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" runat="server" type="text"  autocomplete="off"/>
                                 <span class="field-validation-valid text-danger" id="spRealStartTime"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="RealEndTime">实际结束时间</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="RealEndTime" name="RealEndTime" onclick="WdatePicker({ onpicked: function () { $('#PublishTime').val($('#RealEndTime').val());}})" runat="server" type="text"  autocomplete="off"/>
+                                <input class="form-control" id="RealEndTime" name="RealEndTime" onclick="WdatePicker({ dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked: function () { $('#PublishTime').val($('#RealEndTime').val());}})" runat="server" type="text"  autocomplete="off"/>
                                 <span class="field-validation-valid text-danger" id="spRealEndTime"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="PublishTime">上线时间</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="PublishTime" name="PublishTime" onclick="WdatePicker()" runat="server" type="text"  autocomplete="off"/>
+                                <input class="form-control" id="PublishTime" name="PublishTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" runat="server" type="text"  autocomplete="off"/>
                                 <span class="field-validation-valid text-danger" id="spPublishTime"></span>
                             </div>
                         </div>
@@ -395,6 +396,7 @@
                                     <option value="0">未开始</option>
                                     <option value="1">进行中</option>
                                     <option value="2">完成</option>
+                                    <option value="3">延期</option>
                                 </select>
                                 <span class="field-validation-valid text-danger" id="spState"></span>
                             </div>
