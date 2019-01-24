@@ -57,7 +57,7 @@ namespace ProjectManager
 
         private void BindData(int page)
         {
-            var list = DAL.AttentionsRule.Get().Where(a => txtSearch.Value == "" || a.Remark.ToLower().IndexOf(txtSearch.Value.ToLower()) >= 0);
+            var list = DAL.AttentionsRule.Get().Where(a => txtSearch.Value == "" || a.Remark.ToLower().IndexOf(txtSearch.Value.ToLower()) >= 0 || a.ProjectName.ToLower().IndexOf(txtSearch.Value.ToLower()) >= 0);
             int cc = (int)Math.Ceiling(list.Count() / 10.0);
             if (page <= 0)
             {
