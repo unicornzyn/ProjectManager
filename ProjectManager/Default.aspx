@@ -2,6 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="datepicker/WdatePicker.js"></script>
+    <script src="/js/autotextarea.js"></script>
     <script type="text/javascript">
         function remove(arr,val) {
             var index = arr.indexOf(val);
@@ -43,6 +44,7 @@
                 $("#dever").val("");
                 $("#hidfilepath").val("");
 
+                
             });
 ;
 
@@ -134,7 +136,7 @@
                 //if ($($(this).parent().parent().find("td").get(0)).data("filepath")) {
                 //    $("#divfilepath").html("<a target='_blank' class='col-md-3 control-label' href='/uploads/" + $($(this).parent().parent().find("td").get(0)).data("filepath") + "'>附件</a>");
                 //}
-                
+                $("#WorkRemark,#WorkRemarkDetail").trigger("input");
             });
 
             $(".btnfiles").click(function () {
@@ -179,6 +181,9 @@
                 }
                
             }
+
+            autoTextarea(document.getElementById("WorkRemark"));// 调用
+            autoTextarea(document.getElementById("WorkRemarkDetail"));
         });
 
         function valid() {
@@ -190,7 +195,15 @@
             $("#hiddever").val(arr_dever.join(','));
             return true;
         }
+
+        
     </script>
+    <style type="text/css">
+        #WorkRemark,#WorkRemarkDetail  {
+            height: 50px;
+            padding:2px;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="form-inline">

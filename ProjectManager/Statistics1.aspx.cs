@@ -21,6 +21,11 @@ namespace ProjectManager
                 selYear.DataSource = list;
                 selYear.DataBind();
                 selYear.Value = DateTime.Now.Year.ToString();
+
+                selParent.DataSource = DAL.ProjectRule.Get().Where(a => a.IsShow == 0);
+                selParent.DataTextField = "Name";
+                selParent.DataValueField = "Id";
+                selParent.DataBind();
             }
         }
 
@@ -185,6 +190,7 @@ namespace ProjectManager
             {
                 return new
                 {
+                    Pid = a.First().ID_0,
                     PName = a.First().Name_0,
                     Name = a.First().Name_1,
                     M1 = a.Where(b => b.M == 1).Count(),
@@ -212,7 +218,7 @@ namespace ProjectManager
                     S11 = string.Join("", a.Where(b => b.M == 11).Select(b => "<p>" + b.PublishTime.ToString("M.d") + "(" + b.Name_3 + ")</p>").ToArray()),
                     S12 = string.Join("", a.Where(b => b.M == 12).Select(b => "<p>" + b.PublishTime.ToString("M.d") + "(" + b.Name_3 + ")</p>").ToArray())
                 };
-            }).OrderBy(a => a.PName).Where(a => (txtProjectParent.Value.Trim() == "" || a.PName.IndexOf(txtProjectParent.Value.Trim()) >= 0) && (txtProject.Value.Trim() == "" || a.Name.IndexOf(txtProject.Value.Trim()) >= 0));
+            }).OrderBy(a => a.PName).Where(a => (txtProjectParent.Value.Trim() == "" || Array.IndexOf(txtProjectParent.Value.Split(','), a.Pid.ToString()) >= 0) && (txtProject.Value.Trim() == "" || a.Name.IndexOf(txtProject.Value.Trim()) >= 0));
 
             rpt.DataSource = list;
             rpt.DataBind();

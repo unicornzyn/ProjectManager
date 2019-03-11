@@ -1,6 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Statistics1.aspx.cs" Inherits="ProjectManager.Statistics1" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link href="https://cdn.bootcss.com/bootstrap-select/1.13.6/css/bootstrap-select.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/bootstrap-select/1.13.6/js/bootstrap-select.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-select/1.13.6/js/i18n/defaults-zh_CN.min.js"></script>
     <script type="text/javascript">
         $(function () {
             var temp = "", j = 0;
@@ -38,8 +41,15 @@
                     $('#myModal').modal();
                 }
             });
+
+            $('#selParent').selectpicker({
+                'width': '280px'
+            });
         });
 
+        function sel() {
+            $("#txtProjectParent").val($('#selParent').val());
+        }
 
     </script>
 </asp:Content>
@@ -51,12 +61,14 @@
             </select>
             &nbsp;&nbsp;
             <label for="txtProjectParent" class="control-label">项目归属</label>
-            <input type="text" class="form-control" id="txtProjectParent" runat="server" />
+            <input type="hidden" id="txtProjectParent" runat="server" />
+            <select id="selParent" class="form-control selectpicker" runat="server" multiple="true" size="1">
+            </select>
             &nbsp;&nbsp;
             <label for="txtProject" class="control-label">项目名称</label>
             <input type="text" class="form-control" id="txtProject" runat="server" />
         </div>
-        <asp:Button runat="server" ID="btnSearch" Text="搜 索" CssClass="btn btn-info" OnClick="btnSearch_Click" />
+        <asp:Button runat="server" ID="btnSearch" Text="搜 索" CssClass="btn btn-info" OnClick="btnSearch_Click" OnClientClick="sel()" />
         <asp:Button runat="server" ID="btnExport" OnClick="btnExport_Click" Text="导出Excel" CssClass="btn btn-danger" />
     </div>
     <hr />
