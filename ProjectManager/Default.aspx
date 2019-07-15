@@ -1,10 +1,10 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" ValidateRequest="false"  Inherits="ProjectManager.Default" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" ValidateRequest="false" Inherits="ProjectManager.Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="datepicker/WdatePicker.js"></script>
     <script src="/js/autotextarea.js"></script>
     <script type="text/javascript">
-        function remove(arr,val) {
+        function remove(arr, val) {
             var index = arr.indexOf(val);
             if (index > -1) {
                 arr.splice(index, 1);
@@ -22,7 +22,7 @@
                 $("#ulProject a").show();
                 $("#seltxt").val("");
                 $("#spProjectId").text("");
-                $("#ProjectId").val("");                
+                $("#ProjectId").val("");
                 $("#WorkRemark").val("");
                 $("#RealStartTime").val("");
                 $("#RealEndTime").val("");
@@ -44,15 +44,15 @@
                 $("#dever").val("");
                 $("#hidfilepath").val("");
 
-                
+
             });
-;
+            ;
 
             $(".btnmodify").click(function () {
                 $("#myModal").modal('show');
                 $("#ulProject a").show();
                 $("#spProjectId").text("");
-                
+
                 $("#ProjectId").val($($(this).parent().parent().find("td").get(0)).attr("data-ProjectId"));
                 $("#seltxt").val($($(this).parent().parent().find("td").get(0)).text());
                 $("#WorkRemark").val($($(this).parent().parent().find("td").get(1)).find('div').html().replace(/(<br>)/g, "\r\n"));
@@ -64,7 +64,7 @@
                 $("#SheepNo").val($($(this).parent().parent().find("td").get(0)).attr("data-SheepNo"));
                 $("#StartTime").val($($(this).parent().parent().find("td").get(0)).attr("data-StartTime"));
                 $("#EndTime").val($($(this).parent().parent().find("td").get(0)).attr("data-EndTime"));
-                $("#PublishTime").val($($(this).parent().parent().find("td").get(0)).attr("data-PublishTime"));               
+                $("#PublishTime").val($($(this).parent().parent().find("td").get(0)).attr("data-PublishTime"));
                 $("#Remark").val($($(this).parent().parent().find("td").get(0)).attr("data-Remark"));
                 $("#NeederId").val($($(this).parent().parent().find("td").get(0)).attr("data-NeederId"));
                 $("#PlanType").val($($(this).parent().parent().find("td").get(0)).attr("data-PlanType"));
@@ -98,7 +98,7 @@
                 $("#seltxt").val($(this).text());
                 $("#SheepNo").val($(this).attr("data-url"));
             });
-            $("#seltxt").keyup(function () {                
+            $("#seltxt").keyup(function () {
                 var txt = $("#seltxt").val();
                 if (txt == "") {
                     $("#ulProject a").show();
@@ -111,12 +111,12 @@
                     }
                 });
                 var par = $(this).parent();
-                if (!par.hasClass("open")) { par.addClass("open");}
+                if (!par.hasClass("open")) { par.addClass("open"); }
             });
 
             $(".btndetail").click(function () {
                 $("#myModalDetail").modal('show');
-                
+
 
                 $("#seltxtDetail").val($($(this).parent().parent().find("td").get(0)).text());
                 $("#WorkRemarkDetail").val($($(this).parent().parent().find("td").get(1)).find('div').html().replace(/(<a[\s\S]*?>附件<\/a><br>)/g, "").replace(/(<br>)/g, "\r\n"));
@@ -144,11 +144,11 @@
                 $("#iframefiles").attr("src", "WorkPlanFiles.aspx?id=" + id);
                 $("#myModalFiles").modal('show');
             });
-            
+
             $("#tester").change(function () {
                 addtag("#testerlist", arr_tester, $(this).val());
             });
-            
+
             $("#ulDever a").click(function () {
                 addtag("#deverlist", arr_dever, $(this).data('val'));
             });
@@ -179,7 +179,7 @@
                         $(this).remove();
                     }).appendTo($(list));
                 }
-               
+
             }
 
             autoTextarea(document.getElementById("WorkRemark"));// 调用
@@ -196,12 +196,12 @@
             return true;
         }
 
-        
+
     </script>
     <style type="text/css">
-        #WorkRemark,#WorkRemarkDetail  {
+        #WorkRemark, #WorkRemarkDetail {
             height: 50px;
-            padding:2px;
+            padding: 2px;
         }
     </style>
 </asp:Content>
@@ -237,8 +237,9 @@
                 <option value="-1">全部</option>
                 <option value="0">未开始</option>
                 <option value="1">进行中</option>
-                <option value="2">完成</option>
+                <option value="2">已上线</option>
                 <option value="3">延期</option>
+                <option value="4">测试完成</option>
             </select>
             &nbsp;&nbsp;
             <label for="txtProjectSearch" class="control-label">项目</label>
@@ -254,22 +255,24 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th style="min-width:150px;">项目</th>
+                        <th style="min-width: 150px;">项目</th>
                         <th>工作</th>
-                        <th style="width:103px;">实际开始时间</th>
-                        <th style="width:103px;">实际结束时间</th>
-                        <th style="width:103px;">上线时间</th>
-                        <th style="width:70px;">任务状态</th>
-                        <th style="width:70px;">项目负责人</th>
-                        <th style="width: 250px;text-align:center;">操作</th>
+                        <th style="width: 103px;">实际开始时间</th>
+                        <th style="width: 103px;">实际结束时间</th>
+                        <th style="width: 103px;">上线时间</th>
+                        <th style="width: 70px;">任务状态</th>
+                        <th style="width: 70px;">项目负责人</th>
+                        <th style="width: 250px; text-align: center;">操作</th>
                     </tr>
                 </thead>
                 <tbody>
                     <asp:Repeater runat="server" ID="rpt" OnItemCommand="rpt_ItemCommand">
                         <ItemTemplate>
                             <tr class='<%#GetTrClass(Eval("State").ToString()) %>'>
-                                <td data-Id='<%#Eval("Id") %>' data-SheepNo='<%#Eval("SheepNo") %>' data-ProjectId='<%#Eval("ProjectId") %>' data-PlanType='<%#Eval("PlanType") %>' data-PlanTypeStr='<%#Eval("PlanTypeStr") %>' data-StartTime='<%#Common.St.ToDateTimeString(Eval("StartTime"),"yyyy-MM-dd HH:mm:ss") %>' data-EndTime='<%#Common.St.ToDateTimeString(Eval("EndTime"),"yyyy-MM-dd HH:mm:ss") %>' data-PublishTime='<%#Common.St.ToDateTimeString(Eval("PublishTime"),"yyyy-MM-dd HH:mm:ss") %>' data-State='<%#Eval("State") %>' data-NeederId='<%#Eval("NeederId") %>' data-Remark='<%#Eval("Remark") %>' data-tester='<%#Eval("Tester") %>' data-dever='<%#Eval("Dever") %>' data-filepath='<%#Eval("FilePath") %>'><a target="_blank" href="/ProjectManager.aspx?k=<%#System.Web.HttpUtility.UrlEncodeUnicode(Eval("Project.Name").ToString()) %>"><%#Eval("Project.Name") %></a></td>
-                                <td><div style="width:100%;max-height:100px;overflow-y:auto;"><%#Eval("WorkRemark").ToString().Replace("\r\n","<br>") %></div></td>
+                                <td data-id='<%#Eval("Id") %>' data-sheepno='<%#Eval("SheepNo") %>' data-projectid='<%#Eval("ProjectId") %>' data-plantype='<%#Eval("PlanType") %>' data-plantypestr='<%#Eval("PlanTypeStr") %>' data-starttime='<%#Common.St.ToDateTimeString(Eval("StartTime"),"yyyy-MM-dd HH:mm:ss") %>' data-endtime='<%#Common.St.ToDateTimeString(Eval("EndTime"),"yyyy-MM-dd HH:mm:ss") %>' data-publishtime='<%#Common.St.ToDateTimeString(Eval("PublishTime"),"yyyy-MM-dd HH:mm:ss") %>' data-state='<%#Eval("State") %>' data-neederid='<%#Eval("NeederId") %>' data-remark='<%#Eval("Remark") %>' data-tester='<%#Eval("Tester") %>' data-dever='<%#Eval("Dever") %>' data-filepath='<%#Eval("FilePath") %>'><a target="_blank" href="/ProjectManager.aspx?k=<%#System.Web.HttpUtility.UrlEncodeUnicode(Eval("Project.Name").ToString()) %>"><%#Eval("Project.Name") %></a></td>
+                                <td>
+                                    <div style="width: 100%; max-height: 100px; overflow-y: auto;"><%#Eval("WorkRemark").ToString().Replace("\r\n","<br>") %></div>
+                                </td>
                                 <td><%#Common.St.ToDateTimeString(Eval("RealStartTime"),"yyyy-MM-dd HH:mm:ss") %></td>
                                 <td><%#Common.St.ToDateTimeString(Eval("RealEndTime"),"yyyy-MM-dd HH:mm:ss") %></td>
                                 <td><%#Common.St.ToDateTimeString(Eval("PublishTime"),"yyyy-MM-dd HH:mm:ss") %></td>
@@ -350,11 +353,11 @@
                                 <span class="field-validation-valid text-danger" id="spWorkRemark"></span>
                             </div>
                         </div>
-                        <div class="form-group" style="display:none;">
+                        <div class="form-group" style="display: none;">
                             <label class="col-md-3 control-label" for="FilePath">附件</label>
                             <div class="col-md-9">
-                               <asp:FileUpload runat="server" ID="upFilePath" />
-                               <input type="hidden" value="" runat="server" id="hidfilepath" />
+                                <asp:FileUpload runat="server" ID="upFilePath" />
+                                <input type="hidden" value="" runat="server" id="hidfilepath" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -370,35 +373,35 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="StartTime">计划开始时间</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="StartTime" name="StartTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" runat="server" type="text"  autocomplete="off"/>
+                                <input class="form-control" id="StartTime" name="StartTime" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" runat="server" type="text" autocomplete="off" />
                                 <span class="field-validation-valid text-danger" id="spStartTime"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="EndTime">计划结束时间</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="EndTime" name="EndTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" runat="server" type="text"  autocomplete="off"/>
+                                <input class="form-control" id="EndTime" name="EndTime" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" runat="server" type="text" autocomplete="off" />
                                 <span class="field-validation-valid text-danger" id="spEndTime"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="RealStartTime">实际开始时间</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="RealStartTime" name="RealStartTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" runat="server" type="text"  autocomplete="off"/>
+                                <input class="form-control" id="RealStartTime" name="RealStartTime" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" runat="server" type="text" autocomplete="off" />
                                 <span class="field-validation-valid text-danger" id="spRealStartTime"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="RealEndTime">实际结束时间</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="RealEndTime" name="RealEndTime" onclick="WdatePicker({ dateFmt:'yyyy-MM-dd HH:mm:ss',onpicked: function () { $('#PublishTime').val($('#RealEndTime').val());}})" runat="server" type="text"  autocomplete="off"/>
+                                <input class="form-control" id="RealEndTime" name="RealEndTime" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss', onpicked: function () { $('#PublishTime').val($('#RealEndTime').val()); } })" runat="server" type="text" autocomplete="off" />
                                 <span class="field-validation-valid text-danger" id="spRealEndTime"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="PublishTime">上线时间</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="PublishTime" name="PublishTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" runat="server" type="text"  autocomplete="off"/>
+                                <input class="form-control" id="PublishTime" name="PublishTime" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" runat="server" type="text" autocomplete="off" />
                                 <span class="field-validation-valid text-danger" id="spPublishTime"></span>
                             </div>
                         </div>
@@ -408,8 +411,9 @@
                                 <select class="form-control" id="State" name="State" runat="server">
                                     <option value="0">未开始</option>
                                     <option value="1">进行中</option>
-                                    <option value="2">完成</option>
+                                    <option value="2">已上线</option>
                                     <option value="3">延期</option>
+                                    <option value="4">测试完成</option>
                                 </select>
                                 <span class="field-validation-valid text-danger" id="spState"></span>
                             </div>
@@ -435,7 +439,7 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="dever">研发人员</label>
                             <div class="col-md-9">
-                                 <input type="hidden" value="" runat="server" id="hiddever" />
+                                <input type="hidden" value="" runat="server" id="hiddever" />
                                 <div class="input-group">
                                     <div class="input-group-btn">
                                         <input type="text" class="form-control" id="seldever" aria-label="..." autocomplete="off" data-toggle="dropdown" />
@@ -483,91 +487,90 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="seltxtDetail">项目</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="seltxtDetail" type="text" value="" readonly="true"/>            
+                                <input class="form-control" id="seltxtDetail" type="text" value="" readonly="true" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="SheepNoDetail">工单编号/域名</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="SheepNoDetail" type="text" value="" readonly="true"/>      
+                                <input class="form-control" id="SheepNoDetail" type="text" value="" readonly="true" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="WorkRemarkDetail">工作</label>
                             <div class="col-md-9">
-                                <textarea id="WorkRemarkDetail" class="form-control" readonly="true" ></textarea>
+                                <textarea id="WorkRemarkDetail" class="form-control" readonly="true"></textarea>
                             </div>
                         </div>
-                        <div class="form-group" style="display:none;">
+                        <div class="form-group" style="display: none;">
                             <label class="col-md-3 control-label">附件</label>
                             <div class="col-md-9" id="divfilepath">
-                                
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="PlanTypeDetail">插入/正常</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="PlanTypeDetail" type="text" value="" readonly="true"/>  
+                                <input class="form-control" id="PlanTypeDetail" type="text" value="" readonly="true" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="StartTimeDetail">计划开始时间</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="StartTimeDetail" type="text" value="" readonly="true"/>  
+                                <input class="form-control" id="StartTimeDetail" type="text" value="" readonly="true" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="EndTimeDetail">计划结束时间</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="EndTimeDetail" type="text" value="" readonly="true"/>  
+                                <input class="form-control" id="EndTimeDetail" type="text" value="" readonly="true" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="RealStartTimeDetail">实际开始时间</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="RealStartTimeDetail" type="text" value="" readonly="true"/>  
+                                <input class="form-control" id="RealStartTimeDetail" type="text" value="" readonly="true" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="RealEndTimeDetail">实际结束时间</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="RealEndTimeDetail" type="text" value="" readonly="true"/>  
+                                <input class="form-control" id="RealEndTimeDetail" type="text" value="" readonly="true" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="PublishTimeDetail">上线时间</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="PublishTimeDetail" type="text" value="" readonly="true"/>  
+                                <input class="form-control" id="PublishTimeDetail" type="text" value="" readonly="true" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="StateDetail">任务状态</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="StateDetail" type="text" value="" readonly="true"/>  
+                                <input class="form-control" id="StateDetail" type="text" value="" readonly="true" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="NeederIdDetail">项目负责人</label>
                             <div class="col-md-9">
-                                 <input class="form-control" id="NeederIdDetail" type="text" value="" readonly="true"/>  
+                                <input class="form-control" id="NeederIdDetail" type="text" value="" readonly="true" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="NeederIdDetail">测试人员</label>
                             <div class="col-md-9">
-                                 <input class="form-control" id="TesterDetail" type="text" value="" readonly="true"/>  
+                                <input class="form-control" id="TesterDetail" type="text" value="" readonly="true" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="NeederIdDetail">研发人员</label>
                             <div class="col-md-9">
-                                 <input class="form-control" id="DeverDetail" type="text" value="" readonly="true"/>  
+                                <input class="form-control" id="DeverDetail" type="text" value="" readonly="true" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="RemarkDetail">备注</label>
                             <div class="col-md-9">
-                                <input class="form-control" id="RemarkDetail" type="text" value="" readonly="true"/>  
+                                <input class="form-control" id="RemarkDetail" type="text" value="" readonly="true" />
                             </div>
                         </div>
                     </div>
@@ -590,7 +593,6 @@
                     <iframe id="iframefiles" src="" frameborder="0" width="100%" height="380px"></iframe>
                 </div>
                 <div class="modal-footer">
-                    
                 </div>
             </div>
         </div>

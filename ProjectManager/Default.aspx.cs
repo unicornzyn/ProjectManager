@@ -18,7 +18,7 @@ namespace ProjectManager
                 rptPorject.DataSource = DAL.ProjectRule.Get();
                 rptPorject.DataBind();
 
-                var neederlist = DAL.UserRule.Get().Where(a=>a.Status==1);
+                var neederlist = DAL.UserRule.Get().Where(a => a.Status == 1);
                 NeederId.DataSource = neederlist;
                 NeederId.DataTextField = "RealName";
                 NeederId.DataValueField = "Id";
@@ -29,7 +29,7 @@ namespace ProjectManager
                 selNeeder.DataTextField = "RealName";
                 selNeeder.DataValueField = "Id";
                 selNeeder.DataBind();
-                selNeeder.Items.Insert(0,new ListItem("全部", "-1"));
+                selNeeder.Items.Insert(0, new ListItem("全部", "-1"));
 
                 tester.DataSource = neederlist;
                 tester.DataTextField = "RealName";
@@ -197,6 +197,67 @@ namespace ProjectManager
                         return false;
                     }
                 }
+                else if (a.State == 3 || a.State == 4)
+                {
+                    bool r = false;
+                    if (a.RealStartTime.Year == year)
+                    {
+                        if (month > 0)
+                        {
+                            if (a.RealStartTime.Month <= month)
+                            {
+                                r = true;
+                            }
+                            else
+                            {
+                                r = false;
+                            }
+                        }
+                        else
+                        {
+                            r = true;
+                        }
+                    }
+                    else if (a.RealStartTime.Year < year)
+                    {
+                        r = true;
+                    }
+                    else
+                    {
+                        r = false;
+                    }
+                    if (r)
+                    {
+                        if (a.RealEndTime.Year == year)
+                        {
+                            if (month > 0)
+                            {
+                                if (a.RealEndTime.Month >= month)
+                                {
+                                    r = true;
+                                }
+                                else
+                                {
+                                    r = false;
+                                }
+                            }
+                            else
+                            {
+                                r = true;
+                            }
+                        }
+                        else if (a.RealEndTime.Year > year)
+                        {
+                            r = true;
+                        }
+                        else
+                        {
+                            r = false;
+                        }
+                    }
+
+                    return r;
+                }                
                 else
                 {
                     return false;
@@ -216,7 +277,7 @@ namespace ProjectManager
                     filepath = Guid.NewGuid().ToString() + System.IO.Path.GetExtension(upFilePath.FileName);
                     upFilePath.SaveAs(Server.MapPath("~/uploads/" + filepath));
                 }
-                DAL.WorkPlanRule.Add(Common.St.ToInt32(hId.Value), SheepNo.Value, Common.St.ToInt32(ProjectId.Value), WorkRemark.Value, Common.St.ToInt32(PlanType.Value), Common.St.ToDateTime(StartTime.Value), Common.St.ToDateTime(EndTime.Value), Common.St.ToDateTime(RealStartTime.Value), Common.St.ToDateTime(RealEndTime.Value), Common.St.ToDateTime(PublishTime.Value), Common.St.ToInt32(State.Value), Common.St.ToInt32(NeederId.Value), Remark.Value, ((User)Session["user"]).Id,hidtester.Value,hiddever.Value,filepath);
+                DAL.WorkPlanRule.Add(Common.St.ToInt32(hId.Value), SheepNo.Value, Common.St.ToInt32(ProjectId.Value), WorkRemark.Value, Common.St.ToInt32(PlanType.Value), Common.St.ToDateTime(StartTime.Value), Common.St.ToDateTime(EndTime.Value), Common.St.ToDateTime(RealStartTime.Value), Common.St.ToDateTime(RealEndTime.Value), Common.St.ToDateTime(PublishTime.Value), Common.St.ToInt32(State.Value), Common.St.ToInt32(NeederId.Value), Remark.Value, ((User)Session["user"]).Id, hidtester.Value, hiddever.Value, filepath);
             }
 
             BindData(currpage);
@@ -333,7 +394,7 @@ namespace ProjectManager
 
         protected string GetTrClass(string state)
         {
-            if (state=="0")
+            if (state == "0")
             {
                 return "success";
             }
