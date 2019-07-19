@@ -402,9 +402,9 @@ namespace ProjectManager
             {
                 return "info";
             }
-            else if (state == "2")
+            else if (state == "4")
             {
-                return "";
+                return "warning";
             }
             else
             {

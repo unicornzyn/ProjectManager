@@ -137,6 +137,10 @@ namespace DAL
             {
                 return "延期";
             }
+            else if (i == 4)
+            {
+                return "测试完成";
+            }
             else
             {
                 return "";
