@@ -265,6 +265,24 @@ namespace ProjectManager {
         protected global::System.Web.UI.HtmlControls.HtmlSelect NeederId;
         
         /// <summary>
+        /// SecretScanTime 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText SecretScanTime;
+        
+        /// <summary>
+        /// SecretScanCount 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText SecretScanCount;
+        
+        /// <summary>
         /// hidtester 控件。
         /// </summary>
         /// <remarks>

@@ -277,7 +277,7 @@ namespace ProjectManager
                     filepath = Guid.NewGuid().ToString() + System.IO.Path.GetExtension(upFilePath.FileName);
                     upFilePath.SaveAs(Server.MapPath("~/uploads/" + filepath));
                 }
-                DAL.WorkPlanRule.Add(Common.St.ToInt32(hId.Value), SheepNo.Value, Common.St.ToInt32(ProjectId.Value), WorkRemark.Value, Common.St.ToInt32(PlanType.Value), Common.St.ToDateTime(StartTime.Value), Common.St.ToDateTime(EndTime.Value), Common.St.ToDateTime(RealStartTime.Value), Common.St.ToDateTime(RealEndTime.Value), Common.St.ToDateTime(PublishTime.Value), Common.St.ToInt32(State.Value), Common.St.ToInt32(NeederId.Value), Remark.Value, ((User)Session["user"]).Id, hidtester.Value, hiddever.Value, filepath);
+                DAL.WorkPlanRule.Add(Common.St.ToInt32(hId.Value), SheepNo.Value, Common.St.ToInt32(ProjectId.Value), WorkRemark.Value, Common.St.ToInt32(PlanType.Value), Common.St.ToDateTime(StartTime.Value), Common.St.ToDateTime(EndTime.Value), Common.St.ToDateTime(RealStartTime.Value), Common.St.ToDateTime(RealEndTime.Value), Common.St.ToDateTime(PublishTime.Value), Common.St.ToInt32(State.Value), Common.St.ToInt32(NeederId.Value), Remark.Value, ((User)Session["user"]).Id, hidtester.Value, hiddever.Value, filepath,Common.St.ToDateTime(SecretScanTime.Value), Common.St.ToInt32(SecretScanCount.Value));
             }
 
             BindData(currpage);

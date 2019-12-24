@@ -87,5 +87,13 @@ namespace Model
         /// 附件路径
         /// </summary>
         public string FilePath { get; set; }
+        /// <summary>
+        /// 安全扫描时间
+        /// </summary>
+        public DateTime SecretScanTime { get; set; }
+        /// <summary>
+        /// 安全扫描次数
+        /// </summary>
+        public int SecretScanCount { get; set; }
     }
 }

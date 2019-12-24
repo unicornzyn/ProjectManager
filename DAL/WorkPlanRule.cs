@@ -14,7 +14,7 @@ namespace DAL
     {
         public static List<WorkPlan> Get()
         {
-            string sql = "select Id,SheepNo,ProjectId,WorkRemark,PlanType,StartTime,EndTime,RealStartTime,RealEndTime,PublishTime,State,NeederId,Remark,AddTime,Tester,Dever,FilePath from WorkPlans order by Id desc";
+            string sql = "select Id,SheepNo,ProjectId,WorkRemark,PlanType,StartTime,EndTime,RealStartTime,RealEndTime,PublishTime,State,NeederId,Remark,AddTime,Tester,Dever,FilePath,SecretScanTime,SecretScanCount from WorkPlans order by Id desc";
             DataTable dt = ProjectDB.GetDt(sql);
 
             return GetList(dt);
@@ -27,7 +27,7 @@ namespace DAL
         /// <returns></returns>
         public static List<WorkPlan> Get(DateTime start, DateTime end)
         {
-            string sql = "select Id,SheepNo,ProjectId,WorkRemark,PlanType,StartTime,EndTime,RealStartTime,RealEndTime,PublishTime,State,NeederId,Remark,AddTime,Tester,Dever,FilePath from WorkPlans where State=2 and PublishTime between @dtstart and @dtend order by PublishTime";
+            string sql = "select Id,SheepNo,ProjectId,WorkRemark,PlanType,StartTime,EndTime,RealStartTime,RealEndTime,PublishTime,State,NeederId,Remark,AddTime,Tester,Dever,FilePath,SecretScanTime,SecretScanCount from WorkPlans where State=2 and PublishTime between @dtstart and @dtend order by PublishTime";
             SqlParam p = new SqlParam();
             p.AddParam("@dtstart", start, SqlDbType.DateTime, 0);
             p.AddParam("@dtend", end, SqlDbType.DateTime, 0);
@@ -63,17 +63,19 @@ namespace DAL
                 o.Tester = row["Tester"].ToString();
                 o.Dever = row["Dever"].ToString();
                 o.FilePath = row["FilePath"].ToString();
+                o.SecretScanTime = St.ToDateTime(row["SecretScanTime"].ToString());
+                o.SecretScanCount = St.ToInt32(row["SecretScanCount"], 0);
                 list.Add(o);
             }
             return list;
         }
 
-        public static void Add(int id, string SheepNo, int ProjectId, string WorkRemark, int PlanType, DateTime StartTime, DateTime EndTime, DateTime RealStartTime, DateTime RealEndTime, DateTime PublishTime, int State, int NeederId, string Remark, int userid,string tester,string dever,string FilePath)
+        public static void Add(int id, string SheepNo, int ProjectId, string WorkRemark, int PlanType, DateTime StartTime, DateTime EndTime, DateTime RealStartTime, DateTime RealEndTime, DateTime PublishTime, int State, int NeederId, string Remark, int userid,string tester,string dever,string FilePath,DateTime SecretScanTime, int SecretScanCount)
         {
             string sql = @" if exists(select Id from WorkPlans where Id=@Id)
-	                            update WorkPlans set SheepNo=@SheepNo,ProjectId=@ProjectId,WorkRemark=@WorkRemark,PlanType=@PlanType,StartTime=@StartTime,EndTime=@EndTime,RealStartTime=@RealStartTime,RealEndTime=@RealEndTime,PublishTime=@PublishTime,State=@State,NeederId=@NeederId,Remark=@Remark,LastModifyUser=@userid,LastModifyTime=getdate(),Tester=@Tester,Dever=@Dever,FilePath=@FilePath where Id=@Id
+	                            update WorkPlans set SheepNo=@SheepNo,ProjectId=@ProjectId,WorkRemark=@WorkRemark,PlanType=@PlanType,StartTime=@StartTime,EndTime=@EndTime,RealStartTime=@RealStartTime,RealEndTime=@RealEndTime,PublishTime=@PublishTime,State=@State,NeederId=@NeederId,Remark=@Remark,LastModifyUser=@userid,LastModifyTime=getdate(),Tester=@Tester,Dever=@Dever,FilePath=@FilePath,SecretScanTime=@SecretScanTime,SecretScanCount=@SecretScanCount where Id=@Id
                             else
-	                            insert into WorkPlans(SheepNo,ProjectId,WorkRemark,PlanType,StartTime,EndTime,RealStartTime,RealEndTime,PublishTime,State,NeederId,Remark,LastModifyUser,LastModifyTime,Tester,Dever,FilePath) values(@SheepNo,@ProjectId,@WorkRemark,@PlanType,@StartTime,@EndTime,@RealStartTime,@RealEndTime,@PublishTime,@State,@NeederId,@Remark,@userid,getdate(),@Tester,@Dever,@FilePath)";
+	                            insert into WorkPlans(SheepNo,ProjectId,WorkRemark,PlanType,StartTime,EndTime,RealStartTime,RealEndTime,PublishTime,State,NeederId,Remark,LastModifyUser,LastModifyTime,Tester,Dever,FilePath,SecretScanTime,SecretScanCount) values(@SheepNo,@ProjectId,@WorkRemark,@PlanType,@StartTime,@EndTime,@RealStartTime,@RealEndTime,@PublishTime,@State,@NeederId,@Remark,@userid,getdate(),@Tester,@Dever,@FilePath,@SecretScanTime,@SecretScanCount)";
             SqlParam p = new SqlParam();
             p.AddParam("@Id", id, SqlDbType.Int, 0);
             p.AddParam("@SheepNo", SheepNo, SqlDbType.VarChar, 200);
@@ -92,6 +94,8 @@ namespace DAL
             p.AddParam("@Tester", tester, SqlDbType.VarChar, 500);
             p.AddParam("@Dever", dever, SqlDbType.VarChar, 500);
             p.AddParam("@FilePath", FilePath, SqlDbType.VarChar, 200);
+            p.AddParam("@SecretScanTime", RealEndTime, SqlDbType.DateTime, 0);
+            p.AddParam("@SecretScanCount", State, SqlDbType.Int, 0);
             ProjectDB.SqlExecute(sql, p);
         }
 

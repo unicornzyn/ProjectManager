@@ -22,6 +22,7 @@
                         <th>工作单编号/域名</th>
                         <th>项目</th>
                         <th>上线日期</th>
+                        <th>扫描次数</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,6 +32,7 @@
                                 <td><%#Eval("SheepNo") %></td>
                                 <td><%#Eval("Project.Name") %></td>
                                 <td><%#Common.St.ToDateTimeString(Eval("PublishTime"),"yyyy-MM-dd") %></td>
+                                <td><%#Eval("SecretScanCount") %></td>
                             </tr>
                         </ItemTemplate>
                     </asp:Repeater>

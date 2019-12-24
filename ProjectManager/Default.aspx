@@ -71,6 +71,9 @@
                 $("#State").val($($(this).parent().parent().find("td").get(0)).attr("data-State"));
                 $("#hidfilepath").val($($(this).parent().parent().find("td").get(0)).data("filepath"));
 
+                $("#SecretScanTime").val($($(this).parent().parent().find("td").get(0)).attr("data-SecretScanTime"));
+                $("#SecretScanCount").val($($(this).parent().parent().find("td").get(0)).attr("data-SecretScanCount"));
+
                 arr_tester = [];
                 $("#testerlist").empty();
                 $("#tester").val("");
@@ -129,6 +132,9 @@
                 $("#PublishTimeDetail").val($($(this).parent().parent().find("td").get(0)).attr("data-PublishTime"));
                 $("#StateDetail").val($($(this).parent().parent().find("td").get(5)).text());
                 $("#NeederIdDetail").val($($(this).parent().parent().find("td").get(6)).text());
+                $("#NeederIdDetail").val($($(this).parent().parent().find("td").get(6)).text());
+                $("#SecretScanTimeDetail").val($($(this).parent().parent().find("td").get(0)).attr("data-SecretScanTime"));
+                $("#SecretScanCountDetail").val($($(this).parent().parent().find("td").get(0)).attr("data-SecretScanCount"));
                 $("#RemarkDetail").val($($(this).parent().parent().find("td").get(0)).attr("data-Remark"));
 
                 $("#TesterDetail").val($($(this).parent().parent().find("td").get(0)).data("tester"));
@@ -269,7 +275,7 @@
                     <asp:Repeater runat="server" ID="rpt" OnItemCommand="rpt_ItemCommand">
                         <ItemTemplate>
                             <tr class='<%#GetTrClass(Eval("State").ToString()) %>'>
-                                <td data-id='<%#Eval("Id") %>' data-sheepno='<%#Eval("SheepNo") %>' data-projectid='<%#Eval("ProjectId") %>' data-plantype='<%#Eval("PlanType") %>' data-plantypestr='<%#Eval("PlanTypeStr") %>' data-starttime='<%#Common.St.ToDateTimeString(Eval("StartTime"),"yyyy-MM-dd HH:mm:ss") %>' data-endtime='<%#Common.St.ToDateTimeString(Eval("EndTime"),"yyyy-MM-dd HH:mm:ss") %>' data-publishtime='<%#Common.St.ToDateTimeString(Eval("PublishTime"),"yyyy-MM-dd HH:mm:ss") %>' data-state='<%#Eval("State") %>' data-neederid='<%#Eval("NeederId") %>' data-remark='<%#Eval("Remark") %>' data-tester='<%#Eval("Tester") %>' data-dever='<%#Eval("Dever") %>' data-filepath='<%#Eval("FilePath") %>'><a target="_blank" href="/ProjectManager.aspx?k=<%#System.Web.HttpUtility.UrlEncodeUnicode(Eval("Project.Name").ToString()) %>"><%#Eval("Project.Name") %></a></td>
+                                <td data-id='<%#Eval("Id") %>' data-sheepno='<%#Eval("SheepNo") %>' data-projectid='<%#Eval("ProjectId") %>' data-plantype='<%#Eval("PlanType") %>' data-plantypestr='<%#Eval("PlanTypeStr") %>' data-starttime='<%#Common.St.ToDateTimeString(Eval("StartTime"),"yyyy-MM-dd HH:mm:ss") %>' data-endtime='<%#Common.St.ToDateTimeString(Eval("EndTime"),"yyyy-MM-dd HH:mm:ss") %>' data-publishtime='<%#Common.St.ToDateTimeString(Eval("PublishTime"),"yyyy-MM-dd HH:mm:ss") %>' data-state='<%#Eval("State") %>' data-neederid='<%#Eval("NeederId") %>' data-remark='<%#Eval("Remark") %>' data-tester='<%#Eval("Tester") %>' data-dever='<%#Eval("Dever") %>' data-filepath='<%#Eval("FilePath") %>' data-SecretScanTime='<%#Common.St.ToDateTimeString(Eval("SecretScanTime")) %>' data-SecretScanCount='<%#Eval("SecretScanCount") %>'><a target="_blank" href="/ProjectManager.aspx?k=<%#System.Web.HttpUtility.UrlEncodeUnicode(Eval("Project.Name").ToString()) %>"><%#Eval("Project.Name") %></a></td>
                                 <td>
                                     <div style="width: 100%; max-height: 100px; overflow-y: auto;"><%#Eval("WorkRemark").ToString().Replace("\r\n","<br>") %></div>
                                 </td>
@@ -427,6 +433,20 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-3 control-label" for="SecretScanTime">安全扫描时间</label>
+                            <div class="col-md-9">
+                                <input class="form-control" id="SecretScanTime" name="SecretScanTime" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" runat="server" type="text" autocomplete="off" />
+                                <span class="field-validation-valid text-danger" id="spSecretScanTime"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="SecretScanCount">安全扫描次数</label>
+                            <div class="col-md-9">
+                                <input class="form-control" id="SecretScanCount" name="SecretScanCount" runat="server" type="text" autocomplete="off" />
+                                <span class="field-validation-valid text-danger" id="spSecretScanCount"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-3 control-label" for="tester">测试人员</label>
                             <div class="col-md-9">
                                 <input type="hidden" value="" runat="server" id="hidtester" />
@@ -553,6 +573,18 @@
                             <label class="col-md-3 control-label" for="NeederIdDetail">项目负责人</label>
                             <div class="col-md-9">
                                 <input class="form-control" id="NeederIdDetail" type="text" value="" readonly="true" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="SecretScanTimeDetail">安全扫描时间</label>
+                            <div class="col-md-9">
+                                <input class="form-control" id="SecretScanTimeDetail" name="SecretScanTimeDetail" type="text" autocomplete="off" value="" readonly="true" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="SecretScanCountDetail">安全扫描次数</label>
+                            <div class="col-md-9">
+                                <input class="form-control" id="SecretScanCountDetail" name="SecretScanCountDetail" type="text" value="" readonly="true" />
                             </div>
                         </div>
                         <div class="form-group">
