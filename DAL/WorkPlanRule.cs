@@ -95,7 +95,7 @@ namespace DAL
             p.AddParam("@Dever", dever, SqlDbType.VarChar, 500);
             p.AddParam("@FilePath", FilePath, SqlDbType.VarChar, 200);
             p.AddParam("@SecretScanTime", RealEndTime, SqlDbType.DateTime, 0);
-            p.AddParam("@SecretScanCount", State, SqlDbType.Int, 0);
+            p.AddParam("@SecretScanCount", SecretScanCount, SqlDbType.Int, 0);
             ProjectDB.SqlExecute(sql, p);
         }
 
