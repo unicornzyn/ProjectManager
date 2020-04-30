@@ -36,6 +36,7 @@
                         <ItemTemplate>
                         <tr>
                             <td><%#Eval("FileName") %></td>
+                            <td style="width:60px;"><a href="<%#GetPreviewUrl(Eval("FilePath").ToString()) %>"" target="_blank">预览</a></td>
                             <td style="width:60px;"><asp:LinkButton runat="server" ID="btnDownLoad" Text="下载" OnCommand="btnDownLoad_Command" CommandArgument='<%#Eval("Id") %>'></asp:LinkButton></td>
                             <td style="width:60px;"><asp:LinkButton runat="server" ID="btnDel" OnCommand="btnDel_Command" OnClientClick="return window.confirm('确定删除吗?');" Text="删除" CommandArgument='<%#Eval("Id") %>'></asp:LinkButton></td>
                         </tr>

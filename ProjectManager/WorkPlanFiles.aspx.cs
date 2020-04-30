@@ -60,5 +60,25 @@ namespace ProjectManager
             DAL.WorkPlanFileRule.Delete(id);
             BindData();
         }
+
+        /// <summary>
+        /// 根据path获取对应的预览地址
+        /// </summary>
+        /// <param name="path"></param>
+        protected string GetPreviewUrl(string path)
+        {
+            //Eval("FilePath").ToString()
+            //
+            var ext = System.IO.Path.GetExtension(path);
+            if(Array.IndexOf(new string[] {".docx", ".doc", ".xls",".xlsx",".ppt", ".pptx" }, ext)>=0)
+            {
+                return "https://view.officeapps.live.com/op/view.aspx?src=http://projectmanager.91huayi.com/uploads/" + path;
+            }
+            else
+            {
+                return "http://projectmanager.91huayi.com/uploads/" + path;
+            }
+            
+        }
     }
 }
