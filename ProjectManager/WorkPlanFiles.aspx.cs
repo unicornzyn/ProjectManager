@@ -72,7 +72,8 @@ namespace ProjectManager
             var ext = System.IO.Path.GetExtension(path);
             if(Array.IndexOf(new string[] {".docx", ".doc", ".xls",".xlsx",".ppt", ".pptx" }, ext)>=0)
             {
-                return "https://view.officeapps.live.com/op/view.aspx?src=http://projectmanager.91huayi.com/uploads/" + path;
+                //return "https://view.officeapps.live.com/op/view.aspx?src=http://projectmanager.91huayi.com/uploads/" + path;
+                return "http://ow365.cn/?i=21465&furl=http://projectmanager.91huayi.com/uploads/" + path;
             }
             else
             {
