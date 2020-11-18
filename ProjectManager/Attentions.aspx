@@ -19,7 +19,7 @@
             $(".btnmodify").click(function () {
                 $("#myModal").modal('show');
                 $("#txtId").val($($(this).parent().parent().find("td").get(0)).attr("data-id"));
-                $("#txtRemark").val($($(this).parent().parent().find("td").get(1)).text());
+                $("#txtRemark").val($($(this).parent().parent().find("td").get(1)).find('div').html().replace(/(<br>)/g, "\r\n"));
                 var ids = $($(this).parent().parent().find("td").get(0)).attr("data-projectid");
                 var name = $($(this).parent().parent().find("td").get(0)).text();
                 $("#projectidlist").empty();
@@ -95,7 +95,7 @@
                         <ItemTemplate>
                             <tr>
                                 <td data-id="<%#Eval("Id") %>" data-projectid="<%#Eval("ProjectId") %>"><%#Eval("ProjectName") %></td>
-                                <td><%#Eval("Remark") %></td>                                
+                                <td><div style="width: 100%; max-height: 100px; overflow-y: auto;"><%#Eval("Remark").ToString().Replace("\r\n","<br>") %></div></td>                                
                                 <%if (((Model.User)Session["user"]).RoleType < 3)
                                   { %>
                                 <td>
