@@ -106,6 +106,7 @@
     <Content Include="js\npm.js" />
     <Content Include="Logout.aspx" />
     <Content Include="ModifyPassword.aspx" />
+    <Content Include="ProjectFiles.aspx" />
     <Content Include="ProjectManager.aspx" />
     <Content Include="ServerManager.aspx" />
     <Content Include="Site.Master" />
@@ -198,6 +199,13 @@
     </Compile>
     <Compile Include="ModifyPassword.aspx.designer.cs">
       <DependentUpon>ModifyPassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectFiles.aspx.cs">
+      <DependentUpon>ProjectFiles.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ProjectFiles.aspx.designer.cs">
+      <DependentUpon>ProjectFiles.aspx</DependentUpon>
     </Compile>
     <Compile Include="ProjectManager.aspx.cs">
       <DependentUpon>ProjectManager.aspx</DependentUpon>

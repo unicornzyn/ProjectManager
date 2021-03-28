@@ -43,6 +43,7 @@
     <Compile Include="Attentions.cs" />
     <Compile Include="Dic.cs" />
     <Compile Include="Project.cs" />
+    <Compile Include="ProjectFile.cs" />
     <Compile Include="WorkPlanFile.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="User.cs" />

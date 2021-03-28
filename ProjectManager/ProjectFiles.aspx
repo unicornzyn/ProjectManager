@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WorkPlanFiles.aspx.cs" Inherits="ProjectManager.WorkPlanFiles" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ProjectFiles.aspx.cs" Inherits="ProjectManager.ProjectFiles" %>
 
 <!DOCTYPE html>
 
@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>工作计划附件管理</title>
+    <title>项目附件管理</title>
     <link href="css/bootstrap.css" rel="stylesheet" />
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>

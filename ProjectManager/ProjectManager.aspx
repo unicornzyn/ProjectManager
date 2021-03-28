@@ -64,6 +64,12 @@
 
             });
 
+            $(".btnfiles").click(function () {
+                var id = $($(this).parent().parent().find("td").get(0)).data("id");
+                $("#iframefiles").attr("src", "ProjectFiles.aspx?id=" + id);
+                $("#myModalFiles").modal('show');
+            });
+
         });
 
     </script>
@@ -107,6 +113,7 @@
                                     <input type="button" class="btn btn-default btndetail" value="查看" />
                                     <input type="button" class="btn btn-default btnmodify" value="修改" />
                                     <asp:Button runat="server" Text="删除" OnClientClick="return window.confirm('确定删除吗?');" CssClass="btn btn-default btndel" CommandArgument='<%#Eval("Id") %>' CommandName="DeleteProject" />
+                                    <input type="button" class="btn btn-default btnfiles" value="附件" />
                                 </td>
                             </tr>
                         </ItemTemplate>
@@ -308,6 +315,22 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div class="modal fade" id="myModalFiles" tabindex="-1" role="dialog" aria-labelledby="myModalLabelFiles" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabelFiles">项目附件管理</h4>
+                </div>
+                <div class="modal-body">
+                    <iframe id="iframefiles" src="" frameborder="0" width="100%" height="380px"></iframe>
+                </div>
+                <div class="modal-footer">
                 </div>
             </div>
         </div>

@@ -5,3 +5,5 @@ obj
 PublishProfiles
 *.user
 .vs
+DB
+/ProjectManager/uploads
