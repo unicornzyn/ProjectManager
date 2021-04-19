@@ -18,10 +18,10 @@ namespace ProjectManager
                 rpt.DataSource = DAL.UserRule.Get().Where(a => a.Status == state || state == 0);
                 rpt.DataBind();
 
-                selBugziilaUser.DataSource = Common.DB.MySqlHelper.GetDataSet(System.Data.CommandType.Text, "select userid,realname from profiles where is_enabled=1 order by userid desc").Tables[0]; ;
-                selBugziilaUser.DataValueField = "userid";
-                selBugziilaUser.DataTextField = "realname";
-                selBugziilaUser.DataBind();
+                //selBugziilaUser.DataSource = Common.DB.MySqlHelper.GetDataSet(System.Data.CommandType.Text, "select userid,realname from profiles where is_enabled=1 order by userid desc").Tables[0]; ;
+                //selBugziilaUser.DataValueField = "userid";
+                //selBugziilaUser.DataTextField = "realname";
+                //selBugziilaUser.DataBind();
 
                 selBugziilaUser.Items.Insert(0,new ListItem() { Value = "0", Text = "请选择" });
             }
